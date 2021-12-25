@@ -14,7 +14,17 @@ public class BasicCharacterController : MonoBehaviour
         get { return _isFrozen; }
         set { _isFrozen = value; }
     }
+    public bool IsWalking
+    {
+        get { return _isWalking; }
+    }
+    public bool IsSprinting
+    {
+        get { return _isSprinting; }
+    }
 
+    private bool _isWalking = false;
+    private bool _isSprinting = false;
     private float originalSpeed; // stores the original speed before sprinting
     private bool _isFrozen = false; // TODO: extend a base movement class or smth
     // TODO: Ground checking
@@ -33,10 +43,12 @@ public class BasicCharacterController : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
+                _isSprinting = true;
                 mvmtSpeed = originalSpeed * sprintSpeedMultiplier;
             }
             else
             {
+                _isSprinting = false;
                 mvmtSpeed = originalSpeed;
             }
 
@@ -58,9 +70,18 @@ public class BasicCharacterController : MonoBehaviour
             {
                 netMovement += transform.right * mvmtSpeed * Time.deltaTime;
             }
+            if (netMovement != Vector3.zero)
+                _isWalking = true;
+            else
+                _isWalking = false;
             transform.position += netMovement;
 
             netMovement *= skidMultiplier * Time.deltaTime;
+        }
+        else
+        {
+            _isWalking = false;
+            _isSprinting = false;
         }
     }
 }

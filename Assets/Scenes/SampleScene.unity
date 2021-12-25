@@ -1235,10 +1235,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 301408197}
-  _isFrozen: 1
-  xSens: 500
-  ySens: 500
-  lerpSpeed: 0
+  PlayerController: {fileID: 301408198}
+  _xSens: 350
+  _ySens: 350
+  _amplitude: 0.075
+  _period: 0.5
+  _restPosition: {x: 0, y: 0.5, z: 0}
+  _smoothTime: 0.3
 --- !u!20 &1687258584
 Camera:
   m_ObjectHideFlags: 0
