@@ -107,7 +107,7 @@ public class EggDDR : DDRComponent
     public void Resume()
     {
         _state = "hovering";
-        _camController.IsFrozen = false;
+        unfreezeMovement();
         Display.Hide();
     }
 }

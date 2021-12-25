@@ -42,6 +42,7 @@ public class BabyThrowing : MonoBehaviour
     {
         _notShooting = false;
 
+        _numAmmo--;
         ShootSound.Play(0);
         GameObject clone = Instantiate(proj, RightHand.transform);
         clone.transform.parent = null;
