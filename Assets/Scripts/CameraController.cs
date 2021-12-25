@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Camera main;
-    public Transform player;
+    public Transform Player;
+    public bool IsFrozen
+    {
+        get { return _isFrozen; }
+        set { _isFrozen = value; }
+    }
+    [SerializeField]
+    private bool _isFrozen;
 
     [SerializeField]
     private float xSens;
@@ -14,23 +20,26 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float lerpSpeed;
 
-    float xRotation = 0f;
+    private float xRotation = 0f;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        _isFrozen = false;
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
         float mouseX = Input.GetAxis("Mouse X") * xSens * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * ySens * Time.deltaTime;
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        player.Rotate(Vector3.up * mouseX);
+        if (!_isFrozen)
+        {
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            Player.Rotate(Vector3.up * mouseX);
+        }
     }
 }

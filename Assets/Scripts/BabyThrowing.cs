@@ -5,33 +5,48 @@ using UnityEngine;
 public class BabyThrowing : MonoBehaviour
 {
     [Header("Shooting Settings")]
-    public int shotDelay; // ms between shots
-    public GameObject projectile;
-    public GameObject rightHand;
+    public int ShotDelay; // ms between shots
+    public GameObject Projectile;
+    public GameObject RightHand;
+    public bool UnlimitedAmmo = true;
+    public int StartingAmmo = 10;
+    public int AmmoCount
+    {
+        get { return _numAmmo; }
+        set { _numAmmo = value; }
+    }
 
-    private bool canShoot = true;
+    [SerializeField]
+    private int _numAmmo = 0;
+    private bool _notShooting = true;
 
     [Header("Sounds")]
-    public AudioSource shootSound;
+    public AudioSource ShootSound;
 
-    // Update is called once per frame
+    void Start()
+    {
+        _numAmmo = StartingAmmo;
+    }
+
     void Update()
     {
-        if (Input.GetMouseButton(0) && canShoot)
+        if (Input.GetMouseButton(0) && _notShooting)
         {
-            StartCoroutine(Shoot(shotDelay, projectile));
+            if (!UnlimitedAmmo && _numAmmo <= 0)
+                return;
+            StartCoroutine(Shoot(ShotDelay, Projectile));
         }
     }
 
     private IEnumerator Shoot(float shotDelay, GameObject proj)
     {
-        canShoot = false;
+        _notShooting = false;
 
-        shootSound.Play(0);
-        GameObject clone = Instantiate(proj, rightHand.transform);
+        ShootSound.Play(0);
+        GameObject clone = Instantiate(proj, RightHand.transform);
         clone.transform.parent = null;
 
         yield return new WaitForSeconds(shotDelay / 1000f);
-        canShoot = true;
+        _notShooting = true;
     }
 }

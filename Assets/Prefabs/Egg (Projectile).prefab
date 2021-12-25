@@ -11,13 +11,12 @@ GameObject:
   - component: {fileID: 793377675805866807}
   - component: {fileID: 4523127138871243751}
   - component: {fileID: 8262284114629366829}
-  - component: {fileID: 5707483770187903040}
   - component: {fileID: 6563704487457418514}
   - component: {fileID: 3520881340262328045}
   - component: {fileID: -8933394092275249409}
   m_Layer: 0
   m_Name: Egg (Projectile)
-  m_TagString: Egg
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,18 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5707483770187903040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1384582197589180970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67e8aaee2c28a82468cd39b55f3c0552, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6563704487457418514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   launchForce: 7500
   angleAdd: 15
-  torqueRange: 10000000
+  torqueRange: 1e+10
   rb: {fileID: 3520881340262328045}
 --- !u!54 &3520881340262328045
 Rigidbody:

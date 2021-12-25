@@ -25,19 +25,26 @@ public class CrosshairCollide : MonoBehaviour
         Vector3 fwd = transform.TransformDirection(Vector3.forward);
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, fwd, out hit, maxRange) && hit.collider.tag == "Egg")
+        if (Physics.Raycast(transform.position, fwd, out hit, maxRange) && hit.collider.tag == "Nest Egg")
         {
-            if (queriedObj != null)
+            bool sameObj = ReferenceEquals(queriedObj, hit.collider.gameObject); // check if the ray is hitting the same object as before
+            if (!sameObj)
             {
-                queriedObj.GetComponent<EggDDR>().setState("idle");
+                if (queriedObj != null)
+                {
+                    queriedObj.GetComponent<EggDDR>().State = "idle";
+                }
+                queriedObj = hit.collider.gameObject;
             }
-            queriedObj = hit.collider.gameObject;
-            queriedObj.GetComponent<EggDDR>().setState("hovering");
-            // print(hit.collider);
+            EggDDR behavior = queriedObj.GetComponent<EggDDR>();
+            if (behavior.State == "idle")
+            {
+                behavior.State = "hovering";
+            }
         }
         else if (queriedObj != null)
         {
-            queriedObj.GetComponent<EggDDR>().setState("idle");
+            queriedObj.GetComponent<EggDDR>().State = "idle";
             queriedObj = null;
         }
     }
