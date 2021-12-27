@@ -6,9 +6,8 @@ public class BasicCharacterController : MonoBehaviour
 {
     public float mvmtSpeed = 3f;
     public float sprintSpeedMultiplier = 1.5f;
-    [Range(0, 1f)]
-    public float skidMultiplier = 0.4f;
     public Rigidbody rb;
+
     public bool IsFrozen
     {
         get { return _isFrozen; }
@@ -52,31 +51,16 @@ public class BasicCharacterController : MonoBehaviour
                 mvmtSpeed = originalSpeed;
             }
 
-            Vector3 netMovement = Vector3.zero;
+            float forwardSpeed = Input.GetAxisRaw("Vertical") * mvmtSpeed * Time.deltaTime;
+            float sideSpeed = Input.GetAxisRaw("Horizontal") * mvmtSpeed * Time.deltaTime;
+            Vector3 netMovement = transform.forward * forwardSpeed + transform.right * sideSpeed;
 
-            if (Input.GetKey(KeyCode.W))
-            {
-                netMovement += transform.forward * mvmtSpeed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                netMovement += -transform.forward * mvmtSpeed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                netMovement += -transform.right * mvmtSpeed * Time.deltaTime;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                netMovement += transform.right * mvmtSpeed * Time.deltaTime;
-            }
             if (netMovement != Vector3.zero)
                 _isWalking = true;
             else
                 _isWalking = false;
-            transform.position += netMovement;
 
-            netMovement *= skidMultiplier * Time.deltaTime;
+            transform.position += netMovement;
         }
         else
         {

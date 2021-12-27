@@ -14,13 +14,16 @@ public class CameraController : MonoBehaviour
     }
     private bool _isFrozen;
 
-    [Header("Default Settings")]
+    [Header("Camera Rotation")]
     [SerializeField]
     private float _xSens;
     [SerializeField]
     private float _ySens;
+    public float smoothing;
+    private Vector2 smoothVector;
+    private Vector2 mouseLook;
 
-    [Header("Dynamic Camera")]
+    [Header("Bobbing Head")]
     [SerializeField]
     private float _amplitude;
     [SerializeField]
@@ -30,8 +33,6 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float _smoothTime;
     private Vector3 _velocity = Vector3.zero;
-
-    private float _xRotation = 0f;
 
     void Start()
     {
@@ -43,18 +44,25 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * _xSens * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * _ySens * Time.deltaTime;
-
-        _xRotation -= mouseY;
-        _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
+        // smooth camera lerp
         if (!_isFrozen)
         {
-            transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
-            Player.Rotate(Vector3.up * mouseX);
+            Vector2 movement = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+            movement = Vector2.Scale(movement, new Vector2(_xSens * smoothing, _ySens * smoothing));
+
+            smoothVector.x = Mathf.Lerp(smoothVector.x, movement.x, 1f / smoothing);
+            smoothVector.y = Mathf.Lerp(smoothVector.y, movement.y, 1f / smoothing);
+
+            mouseLook += smoothVector;
+            mouseLook.y = Mathf.Clamp(mouseLook.y, -90f, 90f);
+
+            transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
+            Player.localRotation = Quaternion.AngleAxis(mouseLook.x, Player.up);
         }
 
+        // bobbing head
         delta += Time.deltaTime;
+
         if (delta >= 2f * Mathf.PI)
             delta -= 2f * Mathf.PI;
 
