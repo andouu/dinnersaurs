@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class EggDDR : DDRComponent
 {
+    [Header("DDR Settings")]
     public int StartLength; // starting length for the DDR 
+    [Space(10)]
+    [Header("Indicator Settings")]
     public DDRDisplay Display; // script that Displays the sequence
+
+    [HideInInspector]
     public string State
     {
         get { return _state; }
@@ -16,22 +21,18 @@ public class EggDDR : DDRComponent
     private string _state; // state of the egg (changes on hover): idle, hovering, or active (pressed)
     private MeshRenderer _meshRenderer;
     private List<char> _seq; // stores the DDR Sequence for the egg
+    private CrosshairIndicate _crosshairIndicatorBehavior;
 
     public override void Awake()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
-    }
-
-    // Start is called before the first frame update
-    public override void Start()
-    {
+        _crosshairIndicatorBehavior = GameObject.FindGameObjectWithTag("Crosshair").GetComponentInChildren<CrosshairIndicate>();
         _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<BasicCharacterController>();
         _camController = Camera.main.GetComponent<CameraController>();
         _state = "idle";
         _seq = GenerateSequence(StartLength);
     }
 
-    // Update is called once per frame
     public override void Update()
     {
         if (_state == "hovering")
@@ -42,9 +43,20 @@ public class EggDDR : DDRComponent
                 Display.Hide();
 
             _meshRenderer.material.SetFloat("_OutlineWidth", 4f);
-            if (Input.GetMouseButtonUp(0))
+
+            if (_crosshairIndicatorBehavior.Full)
             {
                 _state = "active";
+                _crosshairIndicatorBehavior.InstantReset();
+            }
+
+            if (Input.GetMouseButton(0) && _state == "hovering")
+            {
+                _crosshairIndicatorBehavior.LoadPct += _crosshairIndicatorBehavior.PctPerTime / 100f * Time.deltaTime;
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                _crosshairIndicatorBehavior.LoadPct = 0f;
             }
         }
         else if (_state == "active")

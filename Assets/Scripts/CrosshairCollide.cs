@@ -1,23 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CrosshairCollide : MonoBehaviour
 {
     public float maxRange = 10f;
-
-    private GameObject queriedObj;
-
-    // Start is called before the first frame update
-    void Start()
+    public GameObject QueriedObj // the object that the raycast has hit, or null if no object was hit
     {
-        
+        get { return _queriedObj; }
     }
 
-    // Update is called once per frame
-    void Update()
+    private GameObject _queriedObj;
+    private GameObject _crosshair; // crosshair UI element, which should have the crosshair image and crosshair indicator gameobject
+    private Image _crosshairImage;
+    private CrosshairIndicate _crosshairIndicatorBehavior;
+
+    private void Awake()
     {
-        
+        _crosshair = GameObject.FindGameObjectWithTag("Crosshair");
+        _crosshairImage = _crosshair.transform.GetChild(0).GetComponent<Image>();
+        _crosshairIndicatorBehavior = _crosshair.GetComponentInChildren<CrosshairIndicate>();
+        _crosshairImage.color = _crosshairIndicatorBehavior.DefaultColor;
     }
 
     private void FixedUpdate()
@@ -27,25 +29,31 @@ public class CrosshairCollide : MonoBehaviour
 
         if (Physics.Raycast(transform.position, fwd, out hit, maxRange) && hit.collider.tag == "Nest Egg")
         {
-            bool sameObj = ReferenceEquals(queriedObj, hit.collider.gameObject); // check if the ray is hitting the same object as before
+            bool sameObj = ReferenceEquals(_queriedObj, hit.collider.gameObject); // check if the ray is hitting the same object as before
             if (!sameObj)
             {
-                if (queriedObj != null)
+                if (_queriedObj != null)
                 {
-                    queriedObj.GetComponent<EggDDR>().State = "idle";
+                    _queriedObj.GetComponent<EggDDR>().State = "idle";
                 }
-                queriedObj = hit.collider.gameObject;
+                _queriedObj = hit.collider.gameObject;
             }
-            EggDDR behavior = queriedObj.GetComponent<EggDDR>();
+            EggDDR behavior = _queriedObj.GetComponent<EggDDR>();
             if (behavior.State == "idle")
             {
                 behavior.State = "hovering";
             }
+            _crosshairImage.color = _crosshairIndicatorBehavior.SelectedColor;
         }
-        else if (queriedObj != null)
+        else if (_queriedObj != null)
         {
-            queriedObj.GetComponent<EggDDR>().State = "idle";
-            queriedObj = null;
+            _queriedObj.GetComponent<EggDDR>().State = "idle";
+            _queriedObj = null;
+        }
+        else
+        {
+            _crosshairImage.color = _crosshairIndicatorBehavior.DefaultColor;
+            _crosshairIndicatorBehavior.LoadPct = 0f;
         }
     }
 }

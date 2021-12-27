@@ -19,18 +19,25 @@ public class BabyThrowing : MonoBehaviour
     [SerializeField]
     private int _numAmmo = 0;
     private bool _notShooting = true;
+    private CrosshairCollide _collisionController;
 
     [Header("Sounds")]
     public AudioSource ShootSound;
 
-    void Start()
+    void Awake()
     {
+        _collisionController = GetComponentInChildren<CrosshairCollide>();
         _numAmmo = StartingAmmo;
     }
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && _notShooting)
+        bool collectingEgg = false;
+        if (_collisionController.QueriedObj && _collisionController.QueriedObj.tag == "Nest Egg")
+        {
+            collectingEgg = true;
+        }
+        if (Input.GetMouseButton(0) && _notShooting && !collectingEgg)
         {
             if (!UnlimitedAmmo && _numAmmo <= 0)
                 return;
