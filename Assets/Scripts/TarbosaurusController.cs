@@ -21,6 +21,7 @@ public class TarbosaurusController : MonoBehaviour
     [SerializeField] private float _minPlayerDistance = 7f;
     [SerializeField] private float _maxPlayerDistance = 30f;
     [SerializeField] private float _maxWanderDistance = 15f;
+    [SerializeField] private float _animRatio = 2.5f;
 
     private const float MinWanderDist = 2f;
 
@@ -36,7 +37,7 @@ public class TarbosaurusController : MonoBehaviour
 
     private void setAnimatorSpeed()
     {
-        float animSpeed = _speed / 2.5f; // TODO: calibrate so dinosaur movement matches footstep animation
+        float animSpeed = _speed / _animRatio; // TODO: calibrate so dinosaur movement matches footstep animation
         _animator.SetFloat("animSpeed", animSpeed);
     }
 
