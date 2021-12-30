@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e79e957b6bd52428dbb70febf51e01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchForce: 7500
-  angleAdd: 15
+  launchForce: 100
+  angleAdd: -7.5
   torqueRange: 1e+10
   rb: {fileID: 3520881340262328045}
 --- !u!54 &3520881340262328045
