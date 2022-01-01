@@ -27,8 +27,9 @@ public class EggEating : MonoBehaviour
     }
 
     IEnumerator flashRed() {
-        gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+        MeshRenderer renderer = gameObject.GetComponent<MeshRenderer>();
+        renderer.material.color = new Color(1, 0, 0, renderer.material.color.a);
         yield return new WaitForSeconds(0.2f);
-        gameObject.GetComponent<MeshRenderer>().material.color = Color.white;
+        gameObject.GetComponent<MeshRenderer>().material.color = new Color(1, 1, 1, renderer.material.color.a);
     }
 }

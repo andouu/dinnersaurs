@@ -57,7 +57,7 @@ public class BabyThrowing : MonoBehaviour
             collectingEgg = true;
         }
 
-        if (Input.GetMouseButton(0) && !collectingEgg)
+        if (Input.GetMouseButton(0) && !collectingEgg && (_numAmmo > 0 || UnlimitedAmmo))
         {
             TrajectoryVisualizer.enabled = true;
 
@@ -74,7 +74,7 @@ public class BabyThrowing : MonoBehaviour
                 _deltaTheta = Mathf.Abs(_deltaTheta);
             }
         }
-        if (Input.GetMouseButtonUp(0) && !collectingEgg)
+        if (Input.GetMouseButtonUp(0) && !collectingEgg && (_numAmmo > 0 || UnlimitedAmmo))
         {
             if (!UnlimitedAmmo && _numAmmo <= 0)
                 return;
