@@ -37,6 +37,7 @@ public class EggDDR : DDRComponent
     {
         if (_state == "hovering")
         {
+            print("hovering");
             unfreezeMovement();
 
             if (Display.Visible)
