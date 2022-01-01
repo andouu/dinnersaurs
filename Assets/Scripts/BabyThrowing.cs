@@ -16,7 +16,7 @@ public class BabyThrowing : MonoBehaviour
     [Header("Components")]
     public GameObject Projectile;
     public GameObject RightHand;
-    public LineRenderer TrajectoryVisualizer;
+    public TrajectoryVisualizer TrajectoryBehavior;
     public ProjectileBehavior ProjBehav;
     
     public int AmmoCount
@@ -57,9 +57,11 @@ public class BabyThrowing : MonoBehaviour
             collectingEgg = true;
         }
 
-        if (Input.GetMouseButton(0) && !collectingEgg && (_numAmmo > 0 || UnlimitedAmmo))
+        bool canShoot = _numAmmo > 0 || UnlimitedAmmo;
+
+        if (Input.GetMouseButton(0) && !collectingEgg && canShoot)
         {
-            TrajectoryVisualizer.enabled = true;
+            TrajectoryBehavior.Show = true;
 
             float clampedAngle = Mathf.Clamp(ProjBehav.angleAdd + _deltaTheta * Time.deltaTime, StartingAngleAdd, _maxAngle);
 
@@ -74,7 +76,7 @@ public class BabyThrowing : MonoBehaviour
                 _deltaTheta = Mathf.Abs(_deltaTheta);
             }
         }
-        if (Input.GetMouseButtonUp(0) && !collectingEgg && (_numAmmo > 0 || UnlimitedAmmo))
+        if (Input.GetMouseButtonUp(0) && !collectingEgg && canShoot)
         {
             if (!UnlimitedAmmo && _numAmmo <= 0)
                 return;
@@ -95,13 +97,13 @@ public class BabyThrowing : MonoBehaviour
         GameObject clone = Instantiate(proj, RightHand.transform);
         clone.transform.parent = null;
 
-        yield return new WaitForSeconds(shotDelay / 1000f);
+        yield return new WaitForSeconds(shotDelay / 1000f); // divide by 1000 since shotDelay is in milliseconds
         _notShooting = true;
     }
     
     private void resetTrajectory()
     {
         ProjBehav.angleAdd = StartingAngleAdd;
-        TrajectoryVisualizer.enabled = false;
+        TrajectoryBehavior.Show = false;
     }
 }
