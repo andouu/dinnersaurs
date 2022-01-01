@@ -13,15 +13,14 @@ public class ProjectileBehavior : MonoBehaviour
 
     private void Awake()
     {
-        angleAdd = -angleAdd;
         mainCam = Camera.main;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        Vector3 targetVec = ForwardWithAddedAngle(angleAdd);
-        rb.AddForce(targetVec * launchForce);
+        angleAdd = -angleAdd;
+        Vector3 targetVec = calcAngledForward();
+        rb.AddForce(targetVec * launchForce, ForceMode.Impulse);
 
         Vector3 torque;
         torque.x = Random.Range(-torqueRange, torqueRange);
@@ -30,12 +29,10 @@ public class ProjectileBehavior : MonoBehaviour
         rb.AddTorque(torque);
     }
 
-    Vector3 ForwardWithAddedAngle(float angleAdd) // deg
+    private Vector3 calcAngledForward() // degs
     {
-        Vector3 forward = mainCam.transform.forward;
-        float forwardAngle = mainCam.transform.rotation.eulerAngles.x; // angle of forward vector on the ZY plane
-
-        float targetAngle = (forwardAngle + angleAdd) * Mathf.Deg2Rad;
-        return new Vector3(forward.x, Mathf.Sin(-targetAngle), forward.z); // return rotated forward vector
+        Vector3 cF = mainCam.transform.forward;
+        Vector3 angled = Quaternion.AngleAxis(mainCam.transform.localEulerAngles.x + 2f * angleAdd, Vector3.right) * Vector3.one;
+        return new Vector3(cF.x, angled.y, cF.z).normalized;
     }
 }

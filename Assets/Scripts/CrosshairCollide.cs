@@ -27,7 +27,7 @@ public class CrosshairCollide : MonoBehaviour
         Vector3 fwd = transform.TransformDirection(Vector3.forward);
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, fwd, out hit, maxRange) && hit.collider.tag == "Next Egg")
+        if (Physics.Raycast(transform.position, fwd, out hit, maxRange) && hit.collider.tag == "Nest Egg")
         {
             bool sameObj = ReferenceEquals(_queriedObj, hit.collider.gameObject); // check if the ray is hitting the same object as before
             if (!sameObj)
