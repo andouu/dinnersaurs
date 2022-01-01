@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 1384582197589180970}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 2.25, z: 1.5}
+  m_LocalScale: {x: 2.5, y: 3.75, z: 2.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchForce: 100
-  angleAdd: -7.5
+  angleAdd: -17.5
   torqueRange: 1e+10
   rb: {fileID: 3520881340262328045}
 --- !u!54 &3520881340262328045
@@ -175,7 +175,7 @@ TrailRenderer:
   m_Time: 0.4
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.4
+    widthMultiplier: 0.55
     widthCurve:
       serializedVersion: 2
       m_Curve:

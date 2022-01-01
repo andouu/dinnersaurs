@@ -13,12 +13,12 @@ public class ProjectileBehavior : MonoBehaviour
 
     private void Awake()
     {
-        angleAdd = -angleAdd;
         mainCam = Camera.main;
     }
 
     void Start()
     {
+        angleAdd = -angleAdd;
         Vector3 targetVec = calcAngledForward();
         rb.AddForce(targetVec * launchForce, ForceMode.Impulse);
 
