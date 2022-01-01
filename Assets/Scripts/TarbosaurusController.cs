@@ -9,6 +9,7 @@ public class TarbosaurusController : MonoBehaviour
     [SerializeField] private LayerMask _targetRaycastLayerMask;
     private Vector3 _targetMove;
     private bool _isChasing = false;
+
     public bool IsChasing
     {
         get { return _isChasing; }
@@ -95,4 +96,5 @@ public class TarbosaurusController : MonoBehaviour
         // position
         transform.position = Vector3.MoveTowards(transform.position, _targetMove, _speed * Time.fixedDeltaTime);*/
     }
+
 }
