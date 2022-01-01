@@ -1,18 +1,23 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEngine.AI;
 
 public class TarbosaurusController : MonoBehaviour
 {
-    [SerializeField, Tooltip("Targets by priority: 1st should be player, 2nd is nest")] private List<Transform> _targets;
-    private Transform _targetTransform;
+    [SerializeField] private Transform _eyes;
+    [SerializeField] private Transform _targetTransform;
+    [SerializeField] private LayerMask _targetRaycastLayerMask;
     private Vector3 _targetMove;
     private bool _isChasing = false;
+
+    public bool IsChasing
+    {
+        get { return _isChasing; }
+        set { _isChasing = value; }
+    }
     private float _speed = 0f;
 
-    private Animator _animator;
+    private NavMeshAgent _agent;
     
     [Header("Movement Fields")]
     [SerializeField] private float _rotSpeed = 2f;
@@ -21,13 +26,12 @@ public class TarbosaurusController : MonoBehaviour
     [SerializeField] private float _minPlayerDistance = 7f;
     [SerializeField] private float _maxPlayerDistance = 30f;
     [SerializeField] private float _maxWanderDistance = 15f;
-    [SerializeField] private float _animRatio = 2.5f;
 
-    private const float MinWanderDist = 2f;
+    private const float MinWanderDist = 0.5f;
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _agent = GetComponent<NavMeshAgent>();
     }
 
     private void Start()
@@ -35,79 +39,62 @@ public class TarbosaurusController : MonoBehaviour
         stopChasing();
     }
 
-    private void setAnimatorSpeed()
-    {
-        float animSpeed = _speed / _animRatio; // TODO: calibrate so dinosaur movement matches footstep animation
-        _animator.SetFloat("animSpeed", animSpeed);
-    }
-
     private void startChasing()
     {
-        _targetTransform = _targets[0];
+        print("START CHASING");
         _isChasing = true;
         _speed = _chaseSpeed;
-        setAnimatorSpeed();
+        _agent.speed = _speed;
+        _agent.isStopped = false;
     }
     
     private void stopChasing()
     {
-        _targetTransform = _targets[1];
+        print("STOP CHASING");
+        _agent.isStopped = true;
         _isChasing = false;
         _speed = _wanderSpeed;
-        setAnimatorSpeed();
-    }
-
-    private void setNewWanderTarget()
-    {
-        Vector2 displacement = Random.insideUnitCircle * _maxWanderDistance;
-        float x = _targetTransform.position.x + displacement.x;
-        float z = _targetTransform.position.z + displacement.y;
-        _targetMove = new Vector3(x, transform.position.y, z);
+        _agent.speed = _speed;
     }
 
     void FixedUpdate()
     {
-        // choosing target TODO later: cycle through targets[1...] when too far from primary target
-        float playerDistance = Vector3.Distance(transform.position, new Vector3(_targets[0].position.x, transform.position.y, _targets[0].position.z));
+        float playerDistance = Vector3.Distance(transform.position, new Vector3(_targetTransform.position.x, transform.position.y, _targetTransform.position.z));
         if (playerDistance > _maxPlayerDistance)
         {
             if (_isChasing)
             {
                 stopChasing();
-                _targetMove = new Vector3(_targetTransform.position.x, transform.position.y, _targetTransform.position.z);
             }
             
-            // wandering movement
-            float dist = Vector3.Distance(transform.position, _targetMove);
-            if (dist < MinWanderDist)
-            {
-                setNewWanderTarget();
-            }
+            // TODO wandering movement
         }
-        else
+        else if (playerDistance >= _minPlayerDistance)
         {
-            if (playerDistance < _minPlayerDistance)
+            Vector3 dir = (_targetTransform.position - _eyes.position).normalized;
+            RaycastHit raycastHit;
+            bool hit = Physics.Raycast(_eyes.position, dir, out raycastHit, playerDistance, _targetRaycastLayerMask);
+            if (hit) print("Raycast hit " + raycastHit.collider.gameObject.name);
+            if (hit && raycastHit.collider.CompareTag("Player"))
             {
-                return;
-            }
-
-            if (_isChasing)
-            {
-                _targetMove = new Vector3(_targetTransform.position.x, transform.position.y, _targetTransform.position.z);
-            }
-            else
-            {
-                startChasing();
+                if (_isChasing)
+                {
+                    _agent.SetDestination(_targetTransform.position);
+                }
+                else
+                {
+                    startChasing();
+                }
             }
         }
         
-        // rotation
+        /*// rotation
         Vector3 direction = _targetMove - transform.position;
         Quaternion endRot = Quaternion.LookRotation(direction, Vector3.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, endRot, _rotSpeed * Time.fixedDeltaTime);
-        //transform.LookAt(_targetMove, Vector3.up);
         
         // position
-        transform.position = Vector3.MoveTowards(transform.position, _targetMove, _speed * Time.fixedDeltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _targetMove, _speed * Time.fixedDeltaTime);*/
     }
+
 }
