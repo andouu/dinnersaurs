@@ -2268,7 +2268,7 @@ MonoBehaviour:
   _targetTransform: {fileID: 301408197}
   _targetRaycastLayerMask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 193
   _rotSpeed: 2
   _chaseSpeed: 7
   _wanderSpeed: 4
@@ -3512,8 +3512,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b2661ccaca21634bac18327df2d6b60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  neck: {fileID: 2018504319755100809}
-  target: {fileID: 301408197}
+  horzMaxRot: 60
+  vertMaxRot: 45
+  _neck: {fileID: 2018504319755100809}
+  _target: {fileID: 301408197}
 --- !u!1 &968395513328906926
 GameObject:
   m_ObjectHideFlags: 0
@@ -3648,7 +3650,7 @@ Transform:
   m_GameObject: {fileID: 3237224123898522278}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.4505804e-11, y: 0.006548159, z: -0.000000002250017}
-  m_LocalScale: {x: 1.0000001, y: 0.9999994, z: 0.99999994}
+  m_LocalScale: {x: 1.0000001, y: 1, z: 1}
   m_Children:
   - {fileID: 3234990483616187421}
   - {fileID: 1062807965927060486}

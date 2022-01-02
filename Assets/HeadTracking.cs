@@ -4,29 +4,43 @@ using UnityEngine;
 
 public class HeadTracking : MonoBehaviour
 {
-    [SerializeField] private Transform neck;
-    [SerializeField] private Transform target;
+    [Header("Settings")]
+    public float horzMaxRot; // max z rotation in degrees
+    public float vertMaxRot; // max y rotation in degrees
 
-    // Start is called before the first frame update
+    [Header("Components")]
+    [SerializeField] private Transform _neck;
+    [SerializeField] private Transform _target;
+
+    // offset angles since the head is a different rotation from the bone
+    private float _yAngleOffset = 45f;   
+    private float _xAngleOffset = 0.01f;
+
     private void LateUpdate()
     {
+        // find the rotation of the forward vector on the z axis to get the unity forward vector
+        Vector2 yzForward = new Vector2(_neck.forward.z, _neck.forward.y);
+        Vector2 flippedYzForward = new Vector2(-_neck.forward.z, _neck.forward.y);
+        float fwdAngWPlane = Mathf.Abs(Vector2.Angle(yzForward, Vector2.right) - Vector2.Angle(flippedYzForward, Vector2.right) - 90f) * Mathf.Deg2Rad;
+        Vector3 trueForward = new Vector3(-_neck.forward.x + _xAngleOffset, _neck.forward.y - Mathf.Sin(fwdAngWPlane + _yAngleOffset), -_neck.forward.z);
 
-        neck.rotation = Quaternion.LookRotation((neck.position - target.position), Vector3.up);
-        neck.Rotate(new Vector3(-60, 0, 0));
+        Vector3 toPlayerDir = _target.position - _neck.position;
 
-        // WTF IS THIS ILL FIX THIS LATER
+        // xz rotation (horizontal rotation)
+        Vector2 horzForward2d = new Vector2(trueForward.x, trueForward.z);
+        Vector2 horzDir2d = new Vector2(toPlayerDir.x, toPlayerDir.z);
+        float xzAngle = Vector2.SignedAngle(horzForward2d, horzDir2d);
+        float clampedXzAngle = Mathf.Clamp(xzAngle, -horzMaxRot, horzMaxRot);
+        Quaternion horzRotation = Quaternion.AngleAxis(-clampedXzAngle, Vector3.forward);
 
-        /*
-        // get angle to target on the XZ plane
-        Vector2 XZVector = new Vector2(neck.position.z, neck.position.x) - new Vector2(target.position.z, target.position.x);
-        float XZAngle = Vector2.SignedAngle(neck.parent.transform.up, XZVector);
-        Debug.Log(XZAngle);
+        // zy rotation (vertical rotation)
+        Vector2 vertForward2d = new Vector2(trueForward.z, trueForward.y);
+        Vector2 vertDir2d = new Vector2(toPlayerDir.z, toPlayerDir.y);
+        float zyAngle = -Vector2.Angle(vertForward2d, vertDir2d);
+        float clampedZyAngle = Mathf.Clamp(zyAngle, -vertMaxRot, vertMaxRot);
+        Quaternion vertRotation = Quaternion.AngleAxis(-clampedZyAngle, -Vector3.right);
 
-        // clamp the absolute value of the angle between 0 and 180
-        //XZAngle = Mathf.Clamp(Mathf.Abs(XZAngle), 90, 180);
-
-        // rotate around the world Y axis (X is -90 because the bone is weird)
-        //neck.rotation = Quaternion.Slerp(neck.rotation, Quaternion.Euler(-90, XZAngle * sign, 0), headRotSpeed * Time.deltaTime);
-        neck.localRotation = Quaternion.Euler(-45, 0, XZAngle + 180);*/
+        Quaternion netRotation = horzRotation * vertRotation;
+        _neck.localRotation = netRotation;
     }
 }
