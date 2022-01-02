@@ -8,18 +8,22 @@ public class TarbosaurusController : DinosaurController
     private void Awake()
     {
         // Movement Fields
-        _chaseSpeed = 2.3f;
-        _wanderSpeed = 1f;
-        _minPlayerDistance = 7f;
-        _maxPlayerDistance = 30f;
+        _chaseSpeed = 3f;
+        _wanderSpeed = 1.8f;
+        
+        _maxPlayerDistance = 40f;
+        
+        _staminaMax = 20f;
+        _staminaRecovery = 0.75f;
+        _staminaStartChase = 10f;
         
         // Sensing Fields
         _halfAngleFOV = 30f;
     }
-    
-    private void Start()
+
+    protected override void Chase(Vector3 targetPos)
     {
-        base.stopChasing();
+        _agent.SetDestination(targetPos);
     }
 
     protected override void Wander()
