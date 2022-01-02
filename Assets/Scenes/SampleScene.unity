@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.40082738, g: 0.5275091, b: 0.7308261, a: 1}
+  m_IndirectSpecularColor: {r: 0.40082738, g: 0.52753574, b: 0.7311615, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -626,7 +626,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 301408193}
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 6, y: 1.5, z: -8.99}
+  m_LocalPosition: {x: -12.04, y: 1.5, z: -32.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1687258585}
@@ -2223,17 +2223,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f2a23169fbc464a88d853fdd553394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _eyes: {fileID: 5653519915580602897}
+  _neck: {fileID: 2018504319755100809}
   _targetTransform: {fileID: 301408197}
   _targetRaycastLayerMask:
     serializedVersion: 2
     m_Bits: 65
-  _rotSpeed: 2
-  _chaseSpeed: 7
-  _wanderSpeed: 4
-  _minPlayerDistance: 7
-  _maxPlayerDistance: 30
-  _maxWanderDistance: 15
+  _agent: {fileID: 919132148894162195}
 --- !u!1 &1462847647
 GameObject:
   m_ObjectHideFlags: 0
@@ -4320,18 +4315,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4999637976417265854, guid: 56cae583fb1410c4a98f8e96d17f5dfc, type: 3}
-      propertyPath: m_Name
-      value: Egg
-      objectReference: {fileID: 0}
-    - target: {fileID: 4999637976417265854, guid: 56cae583fb1410c4a98f8e96d17f5dfc, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6726102570397815203, guid: 56cae583fb1410c4a98f8e96d17f5dfc, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7778940536295176609, guid: 93b07fcb1b21c9c429cf5d198f77908e, type: 3}
       propertyPath: Display
       value: 
@@ -4402,6 +4385,18 @@ PrefabInstance:
       objectReference: {fileID: 949000806}
     - target: {fileID: 7778940538246570554, guid: 93b07fcb1b21c9c429cf5d198f77908e, type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4999637976417265854, guid: 56cae583fb1410c4a98f8e96d17f5dfc, type: 3}
+      propertyPath: m_Name
+      value: Egg
+      objectReference: {fileID: 0}
+    - target: {fileID: 4999637976417265854, guid: 56cae583fb1410c4a98f8e96d17f5dfc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6726102570397815203, guid: 56cae583fb1410c4a98f8e96d17f5dfc, type: 3}
+      propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
