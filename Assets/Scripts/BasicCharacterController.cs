@@ -1,71 +1,72 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BasicCharacterController : MonoBehaviour
 {
-    public float mvmtSpeed = 3f;
-    public float sprintSpeedMultiplier = 1.5f;
-    public Rigidbody rb;
+    [Header("Movement Speeds")]
+    [SerializeField] private float _walkSpeed = 9f;
+    [SerializeField] private float _sprintSpeedMultiplier = 1.5f;
+    [SerializeField] private float _sneakSpeedMultiplier = 0.6f;
+    
+    [Header("Jump Settings")]
+    [SerializeField] private Rigidbody _rb;
+    [SerializeField] private Transform _groundCheck;
+    [SerializeField] private float _groundCheckRadius = 0.2f;
+    [SerializeField] private LayerMask _groundCheckLayerMask;
+    [SerializeField] private float _jumpForceMagnitude = 70f;
 
-    public bool IsFrozen
+    private float _movementSpeed;
+    private MovementState _movementState = MovementState.Idle;
+    public MovementState MovementState
     {
-        get { return _isFrozen; }
-        set { _isFrozen = value; }
+        get => _movementState;
+        set => _movementState = value;
     }
-    public bool IsWalking
-    {
-        get { return _isWalking; }
-    }
-    public bool IsSprinting
-    {
-        get { return _isSprinting; }
-    }
-
-    private bool _isWalking = false;
-    private bool _isSprinting = false;
-    private float originalSpeed; // stores the original speed before sprinting
-    private bool _isFrozen = false; // TODO: extend a base movement class or smth
-    // TODO: Ground checking
-    [SerializeField]
-    private GameObject groundCheck;
-    private bool isGrounded;
-
-    private void Start()
-    {
-        originalSpeed = mvmtSpeed;
-    }
-
+    
     void Update()
     {
-        if (!_isFrozen)
+        if (_movementState == MovementState.Frozen) return;
+            
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                _isSprinting = true;
-                mvmtSpeed = originalSpeed * sprintSpeedMultiplier;
-            }
-            else
-            {
-                _isSprinting = false;
-                mvmtSpeed = originalSpeed;
-            }
-
-            float forwardSpeed = Input.GetAxisRaw("Vertical") * mvmtSpeed * Time.deltaTime;
-            float sideSpeed = Input.GetAxisRaw("Horizontal") * mvmtSpeed * Time.deltaTime;
-            Vector3 netMovement = transform.forward * forwardSpeed + transform.right * sideSpeed;
-
-            if (netMovement != Vector3.zero)
-                _isWalking = true;
-            else
-                _isWalking = false;
-
-            transform.position += netMovement;
+            _movementState = MovementState.Sprinting;
+            _movementSpeed = _walkSpeed * _sprintSpeedMultiplier;
+        }
+        else if (Input.GetKey(KeyCode.C))
+        {
+            _movementState = MovementState.Sneaking;
+            _movementSpeed = _walkSpeed * _sneakSpeedMultiplier;
         }
         else
         {
-            _isWalking = false;
-            _isSprinting = false;
+            _movementState = MovementState.Walking;
+            _movementSpeed = _walkSpeed;
+        }
+
+        float forwardSpeed = Input.GetAxisRaw("Vertical") * _movementSpeed;
+        float sideSpeed = Input.GetAxisRaw("Horizontal") * _movementSpeed;
+        Vector3 netMovement = transform.forward * forwardSpeed + transform.right * sideSpeed;
+
+        if (netMovement == Vector3.zero)
+            _movementState = MovementState.Idle;
+
+        _rb.velocity = new Vector3(netMovement.x, _rb.velocity.y, netMovement.z);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Physics.OverlapSphere(_groundCheck.position, _groundCheckRadius, _groundCheckLayerMask).Length > 0)
+            {
+                print("Jump");
+                _rb.AddForce(Vector3.up * _jumpForceMagnitude, ForceMode.Impulse);
+            }
         }
     }
+}
+
+public enum MovementState
+{
+    Idle,
+    Walking,
+    Sneaking,
+    Sprinting,
+    Frozen
 }

@@ -64,7 +64,6 @@ public abstract class DinosaurController : MonoBehaviour
             }
             else
             {
-                print(_stamina);
                 _stamina -= Time.fixedDeltaTime;
             }
             
