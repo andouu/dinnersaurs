@@ -33,6 +33,7 @@ public class BasicCharacterController : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.C))
         {
+            print("sneaking");
             _movementState = MovementState.Sneaking;
             _movementSpeed = _walkSpeed * _sneakSpeedMultiplier;
         }
