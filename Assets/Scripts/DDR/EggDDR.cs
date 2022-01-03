@@ -103,18 +103,12 @@ public class EggDDR : DDRComponent
 
     private void freezeMovement()
     {
-        if (!_camController.IsFrozen)
-            _camController.IsFrozen = true;
-        if (!_playerController.IsFrozen)
-            _playerController.IsFrozen = true;
+        _playerController.MovementState = MovementState.Frozen;
     }
 
     private void unfreezeMovement()
     {
-        if (_camController.IsFrozen)
-            _camController.IsFrozen = false;
-        if (_playerController.IsFrozen)
-            _playerController.IsFrozen = false;
+        _playerController.MovementState = MovementState.Idle;
     }
 
     public void Resume()
