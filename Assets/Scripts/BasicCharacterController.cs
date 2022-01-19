@@ -14,6 +14,9 @@ public class BasicCharacterController : MonoBehaviour
     [SerializeField] private LayerMask _groundCheckLayerMask;
     [SerializeField] private float _jumpForceMagnitude = 70f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource _footsteps;
+
     private float _movementSpeed;
     private MovementState _movementState = MovementState.Idle;
     public MovementState MovementState
@@ -43,12 +46,19 @@ public class BasicCharacterController : MonoBehaviour
             _movementSpeed = _walkSpeed;
         }
 
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) {
+            _footsteps.Play();
+        }
+
         float forwardSpeed = Input.GetAxisRaw("Vertical") * _movementSpeed;
         float sideSpeed = Input.GetAxisRaw("Horizontal") * _movementSpeed;
         Vector3 netMovement = transform.forward * forwardSpeed + transform.right * sideSpeed;
 
         if (netMovement == Vector3.zero)
+        {
             _movementState = MovementState.Idle;
+            _footsteps.Stop();
+        }
 
         _rb.velocity = new Vector3(netMovement.x, _rb.velocity.y, netMovement.z);
 
