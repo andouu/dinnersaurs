@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(MeshFilter))]
 public class TerrainGenerator : MonoBehaviour
@@ -19,6 +18,9 @@ public class TerrainGenerator : MonoBehaviour
     [Min(1f)][SerializeField] private float _lacunarity = 2f;
     [Min(0)][SerializeField] private int _numOctaves = 2;
     [SerializeField] private TerrainType[] _regions;
+
+    [Header("Nav Mesh")]
+    [SerializeField] private NavMeshSurface _navMeshSurface;
 
     [System.Serializable]
     public struct TerrainType
@@ -44,6 +46,7 @@ public class TerrainGenerator : MonoBehaviour
         Mesh mesh = _meshData.CreateMesh();
         _meshFilter.mesh = mesh;
         _meshCollider.sharedMesh = mesh;
+        _navMeshSurface.BuildNavMesh();
     }
 
     private void OnValidate()
@@ -58,6 +61,7 @@ public class TerrainGenerator : MonoBehaviour
         Mesh mesh = _meshData.CreateMesh();
         _meshFilter.mesh = mesh;
         _meshCollider.sharedMesh = mesh;
+        _navMeshSurface.BuildNavMesh();
     }
 
     private void generateNoiseMap()
