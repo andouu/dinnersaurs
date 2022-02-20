@@ -3,7 +3,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.AI;
 
-public class TarbosaurusController : DinosaurController
+public class DEPRECATEDTarbosaurusController : DEPRECATEDDinosaurController
 {
     private void Awake()
     {
