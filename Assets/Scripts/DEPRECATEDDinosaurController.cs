@@ -2,7 +2,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.AI;
 
-public abstract class DinosaurController : MonoBehaviour
+public abstract class DEPRECATEDDinosaurController : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] protected Transform _neck;
