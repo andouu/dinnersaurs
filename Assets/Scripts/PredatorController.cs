@@ -11,6 +11,9 @@ public class PredatorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if ((transform.position - target.transform.position).magnitude < 1f && Time.timeScale >= 0.999f) {
+            target.gameObject.GetComponent<BasicCharacterController>().Die();
+        }
         transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
         transform.LookAt(target.transform.position, Vector3.up);
     }

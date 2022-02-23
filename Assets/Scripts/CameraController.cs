@@ -23,10 +23,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _smoothTime;
     private Vector3 _velocity = Vector3.zero;
 
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-    }
 
     private float delta = 0f; // current x value of sinusoidal function(dynamic camera) 
 

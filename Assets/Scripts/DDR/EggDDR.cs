@@ -26,6 +26,7 @@ public class EggDDR : DDRComponent
     public override void Awake()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
+        Display = GameObject.FindObjectOfType<DDRDisplay>();
         _crosshairIndicatorBehavior = GameObject.FindGameObjectWithTag("Crosshair").GetComponentInChildren<CrosshairIndicate>();
         _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<BasicCharacterController>();
         _camController = Camera.main.GetComponent<CameraController>();
@@ -37,8 +38,8 @@ public class EggDDR : DDRComponent
     {
         if (_state == "hovering")
         {
-            print("hovering");
-            unfreezeMovement();
+            //print("hovering");
+            //_playerController.Unfreeze();
 
             if (Display.Visible)
                 Display.Hide();
@@ -62,15 +63,15 @@ public class EggDDR : DDRComponent
         }
         else if (_state == "active")
         {
-            freezeMovement();
+            //_playerController.Freeze();
 
             if (!Display.Visible)
                 Display.Show(_seq, gameObject.GetComponent<EggDDR>());
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Resume();
-            }
+            //if (Input.GetKeyDown(KeyCode.Escape))
+            //{
+            //    Resume();
+            //}
         }
         else
         {
@@ -101,20 +102,10 @@ public class EggDDR : DDRComponent
         print(statement);
     }
 
-    private void freezeMovement()
-    {
-        _playerController.MovementState = MovementState.Frozen;
-    }
-
-    private void unfreezeMovement()
-    {
-        _playerController.MovementState = MovementState.Idle;
-    }
-
     public void Resume()
     {
         _state = "hovering";
-        unfreezeMovement();
+        //_playerController.Unfreeze();
         Display.Hide();
     }
 }

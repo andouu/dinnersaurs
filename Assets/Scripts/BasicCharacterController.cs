@@ -16,15 +16,35 @@ public class BasicCharacterController : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioSource _footsteps;
+    [SerializeField] private AudioSource chomp;
+
+    [Header("Misc")]
+    [SerializeField] private MenuController menu;
 
     private float _movementSpeed;
     private MovementState _movementState = MovementState.Idle;
+
     public MovementState MovementState
     {
         get => _movementState;
         set => _movementState = value;
     }
+
     
+    public void Freeze() {
+        _movementState = MovementState.Frozen;
+    }
+
+    public void Unfreeze() {
+        _movementState = MovementState.Idle;
+    }
+
+    public void Die() {
+        chomp.Play();
+        menu.PauseGame();
+        menu.EndResults();
+    }
+
     void Update()
     {
         if (_movementState == MovementState.Frozen) return;
