@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: This script can be merged with DisplayMoved
 public class DDRDisplay : MonoBehaviour
 {
     public bool Visible
@@ -17,7 +18,7 @@ public class DDRDisplay : MonoBehaviour
     {
         moveDisplay.Seq = seq;
         moveDisplay.EggBehavior = egg;
-        moveDisplay.Display();
+        moveDisplay.Display(egg.gameObject.transform.position);
 
         gameObject.SetActive(true);
         _visible = true;
@@ -25,7 +26,7 @@ public class DDRDisplay : MonoBehaviour
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
         _visible = false;
     }
 }
