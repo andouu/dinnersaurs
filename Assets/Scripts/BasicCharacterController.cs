@@ -20,7 +20,16 @@ public class BasicCharacterController : MonoBehaviour
 
     [Header("Misc")]
     [SerializeField] private MenuController menu;
+    [SerializeField] private ChunkLoader _chunkLoader;
 
+    [HideInInspector] public float Distance
+    {
+        get { return _distanceRan; }
+    }
+    
+    // cache
+    private float _distanceRan = 0f;
+    
     private float _movementSpeed;
     private MovementState _movementState = MovementState.Idle;
 
@@ -90,6 +99,9 @@ public class BasicCharacterController : MonoBehaviour
                 _rb.AddForce(Vector3.up * _jumpForceMagnitude, ForceMode.Impulse);
             }
         }
+        
+        // we are running straight in the z direction, so the distance is just the difference in z values
+        _distanceRan = transform.position.z - _chunkLoader.InitialPosition.z;
     }
 }
 
