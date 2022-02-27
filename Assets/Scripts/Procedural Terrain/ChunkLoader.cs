@@ -12,6 +12,7 @@ public class ChunkLoader : MonoBehaviour
     [SerializeField] private int _chunksAround = 4; // how many chunks ahead and behind to load
 
     [Header("Components")]
+    [SerializeField] private CrosshairIndicate _crosshairIndicatorBehavior;
     [SerializeField] private GameObject _chunkPrefab; // SHOULD BE A SQUARE
     [SerializeField] private GameObject _player;
     
@@ -42,6 +43,13 @@ public class ChunkLoader : MonoBehaviour
         }
     }
 
+    private GameObject createChunk(Vector3 pos)
+    {
+        GameObject clone = Instantiate(_chunkPrefab, pos, neg90);
+        clone.GetComponent<ChunkTerrain>().CrosshairIndicatorBehavior = _crosshairIndicatorBehavior;
+        return clone;
+    }
+    
     private void initChunks()
     {
         _chunkWidth = _chunkPrefab.GetComponent<Renderer>().bounds.extents.z;
@@ -49,7 +57,7 @@ public class ChunkLoader : MonoBehaviour
         Vector3 pos = InitialPosition + _chunksAround * -_step;
         for (int chunk = 0; chunk < _chunksAround * 2 + 1; chunk++)
         {
-            GameObject clone = Instantiate(_chunkPrefab, pos, neg90);
+            GameObject clone = createChunk(pos);
             _loadedChunks.Add(clone);
             pos += _step;
         }
@@ -67,7 +75,7 @@ public class ChunkLoader : MonoBehaviour
         Destroy(_loadedChunks[0]);
         _loadedChunks.RemoveAt(0);
         Vector3 newPosition = _loadedChunks.Last().transform.position + _step;
-        GameObject newChunk = Instantiate(_chunkPrefab, newPosition, neg90);
+        GameObject newChunk = createChunk(newPosition);
         _loadedChunks.Add(newChunk);
     }
 
@@ -77,7 +85,7 @@ public class ChunkLoader : MonoBehaviour
         Destroy(_loadedChunks[lastIndex]);
         _loadedChunks.RemoveAt(lastIndex);
         Vector3 newPosition = _loadedChunks[0].transform.position - _step;
-        GameObject newChunk = Instantiate(_chunkPrefab, newPosition, neg90);
+        GameObject newChunk = createChunk(newPosition);
         _loadedChunks.Insert(0, newChunk);
     }
 }

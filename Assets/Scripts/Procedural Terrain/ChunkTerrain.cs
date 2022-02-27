@@ -11,6 +11,7 @@ public class ChunkTerrain : MonoBehaviour
     [SerializeField] private float _nestSize = 1f;
 
     [Header("Components")]
+    [HideInInspector] public CrosshairIndicate CrosshairIndicatorBehavior;
     [SerializeField] private GameObject _chunkPrefab;
     [SerializeField] private GameObject _treePrefab;
     [SerializeField] private GameObject _nestPrefab;
@@ -47,6 +48,10 @@ public class ChunkTerrain : MonoBehaviour
             Vector3 neg90 = new Vector3(-90, 0, 0);
             Vector3 randomPos = randomPtOnQuad(gameObject) + new Vector3(0, 0.4f, 0);
             GameObject nest = Instantiate(_nestPrefab, randomPos, Quaternion.Euler(neg90), gameObject.transform);
+            foreach (Transform child in nest.transform.GetChild(0))
+            {
+                child.GetComponent<EggDDR>().CrosshairIndicatorBehavior = CrosshairIndicatorBehavior;
+            }
             nest.transform.localScale = new Vector3(0.15f, 0.15f, 1.1f) * _nestSize;
         }
 

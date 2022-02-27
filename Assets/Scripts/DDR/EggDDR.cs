@@ -21,13 +21,12 @@ public class EggDDR : DDRComponent
     private string _state; // state of the egg (changes on hover): idle, hovering, or active (pressed)
     private MeshRenderer _meshRenderer;
     private List<char> _seq; // stores the DDR Sequence for the egg
-    private CrosshairIndicate _crosshairIndicatorBehavior;
+    [HideInInspector] public CrosshairIndicate CrosshairIndicatorBehavior;
 
     public override void Awake()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
         Display = GameObject.FindObjectOfType<DDRDisplay>();
-        _crosshairIndicatorBehavior = GameObject.FindGameObjectWithTag("Crosshair").GetComponentInChildren<CrosshairIndicate>();
         _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<BasicCharacterController>();
         _camController = Camera.main.GetComponent<CameraController>();
         _state = "idle";
@@ -46,19 +45,19 @@ public class EggDDR : DDRComponent
 
             _meshRenderer.material.SetFloat("_OutlineWidth", 4f);
 
-            if (_crosshairIndicatorBehavior.Full)
+            if (CrosshairIndicatorBehavior.Full)
             {
                 _state = "active";
-                _crosshairIndicatorBehavior.InstantReset();
+                CrosshairIndicatorBehavior.InstantReset();
             }
 
             if (Input.GetMouseButton(0) && _state == "hovering")
             {
-                _crosshairIndicatorBehavior.LoadPct += _crosshairIndicatorBehavior.PctPerTime / 100f * Time.deltaTime;
+                CrosshairIndicatorBehavior.LoadPct += CrosshairIndicatorBehavior.PctPerTime / 100f * Time.deltaTime;
             }
             if (Input.GetMouseButtonUp(0))
             {
-                _crosshairIndicatorBehavior.LoadPct = 0f;
+                CrosshairIndicatorBehavior.LoadPct = 0f;
             }
         }
         else if (_state == "active")
