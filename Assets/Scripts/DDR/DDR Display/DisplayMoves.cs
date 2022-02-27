@@ -50,7 +50,7 @@ public class DisplayMoves : DDRComponent
                 if (CurrIndex >= maxIndex)
                 {
                     _sequenceDisplay.Stop();
-                    ThrowBehavior.AmmoCount++;
+                    ThrowBehavior.ChangeAmmo(1);
                     EggBehavior.Resume();
                     Destroy(EggBehavior.gameObject);
                     reset();
@@ -95,7 +95,7 @@ public class DisplayMoves : DDRComponent
             return;
 
         miniDisplay.gameObject.SetActive(true);
-        _sequenceDisplay.Display(_seq);
+        _sequenceDisplay.Display(_seq.GetRange(0, maxIndex));
         miniDisplay.transform.position = eggPos + new Vector3(0, 1f, 0);
         miniDisplay.transform.LookAt(player.transform.position, Vector3.up);
     }

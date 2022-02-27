@@ -3,7 +3,7 @@ using UnityEngine;
 public class BasicCharacterController : MonoBehaviour
 {
     [Header("Movement Speeds")]
-    [SerializeField] private float _walkSpeed = 9f;
+    [SerializeField] private float _walkSpeed = 7.5f;
     [SerializeField] private float _sprintSpeedMultiplier = 1.5f;
     
     [Header("Jump Settings")]
@@ -35,7 +35,6 @@ public class BasicCharacterController : MonoBehaviour
         set => _movementState = value;
     }
 
-    
     public void Freeze() {
         _movementState = MovementState.Frozen;
     }
@@ -53,7 +52,9 @@ public class BasicCharacterController : MonoBehaviour
     void Update()
     {
         if (_movementState == MovementState.Frozen) return;
-            
+
+        bool grounded = Physics.OverlapSphere(_groundCheck.position, _groundCheckRadius, _groundCheckLayerMask).Length >
+                        0;
         if (Input.GetKey(KeyCode.LeftShift))
         {
             _movementState = MovementState.Sprinting;
@@ -80,13 +81,16 @@ public class BasicCharacterController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (Physics.OverlapSphere(_groundCheck.position, _groundCheckRadius, _groundCheckLayerMask).Length > 0)
+            if (grounded)
             {
+                _movementState = MovementState.Jumping;
                 _rb.AddForce(Vector3.up * _jumpForceMagnitude, ForceMode.Impulse);
             }
         }
-        
-        // we are running straight in the z direction, so the distance is just the difference in z values
+
+        if (!grounded) _movementState = MovementState.Jumping;
+
+            // we are running straight in the z direction, so the distance is just the difference in z values
         _distanceRan = transform.position.z - _chunkLoader.InitialPosition.z;
     }
 }
@@ -96,5 +100,6 @@ public enum MovementState
     Idle,
     Walking,
     Sprinting,
-    Frozen
+    Frozen,
+    Jumping,
 }

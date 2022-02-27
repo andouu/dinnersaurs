@@ -44,9 +44,11 @@ public class CameraController : MonoBehaviour
         }
 
         // bobbing head
-        delta += Time.deltaTime;
-
-        delta %= 2f * Mathf.PI;
+        if (_playerController.MovementState != MovementState.Jumping)
+        {
+            delta += Time.deltaTime;
+            delta %= 2f * Mathf.PI;
+        }
 
         if (_playerController.MovementState == MovementState.Walking)
             transform.localPosition = new Vector3(0, calcSinusoidal(delta, _amplitude, _period) + _restPosition.y, 0);

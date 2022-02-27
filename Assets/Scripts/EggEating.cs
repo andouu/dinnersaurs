@@ -12,21 +12,24 @@ public class EggEating : MonoBehaviour
 
     [SerializeField] float flashSpeed;
     private SphereCollider mouth;
+    private DisplayGameover _gameoverDisplay;
 
     private void Start()
     {
+        _gameoverDisplay = GameObject.FindGameObjectWithTag("Gameover Menu").GetComponent<DisplayGameover>();
         number.GetComponent<MeshRenderer>().material = nums[eggHunger - 1];
         mouth = gameObject.GetComponent<SphereCollider>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Egg Projectile") {
-
+        if (other.gameObject.CompareTag("Egg Projectile"))
+        {
             eggHunger--;
 
             if (eggHunger <= 0) {
                 // TODO: make the dinosaur go away
+                _gameoverDisplay.DinosFed++;
                 dinosaur.SetActive(false);
             }
             else number.GetComponent<MeshRenderer>().material = nums[eggHunger - 1];
@@ -34,5 +37,4 @@ public class EggEating : MonoBehaviour
             Destroy(other.gameObject);
         }
     }
-
 }
