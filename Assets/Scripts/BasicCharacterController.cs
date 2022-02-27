@@ -21,11 +21,8 @@ public class BasicCharacterController : MonoBehaviour
     [SerializeField] private MenuController menu;
     [SerializeField] private ChunkLoader _chunkLoader;
 
-    [HideInInspector] public float Distance
-    {
-        get { return _distanceRan; }
-    }
-    
+    [HideInInspector] public float Distance => _distanceRan;
+
     // cache
     private float _distanceRan = 0f;
     

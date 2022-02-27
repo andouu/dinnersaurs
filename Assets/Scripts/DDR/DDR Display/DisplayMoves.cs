@@ -2,22 +2,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class DisplayMoves : DDRComponent
 {
+    [Header("Components")]
     public BabyThrowing ThrowBehavior;
-    //public List<Sprite> KeySprites;
     public EggDDR EggBehavior;
-    //public GameObject LetterGO; // prefab of letter to be cloned
-    public int currIndex = 0; // tracks which character the player is supposed to press
-    [SerializeField] private int maxIndex;
-
     [SerializeField] private Canvas miniDisplay;
     [SerializeField] private GameObject player;
-    [SerializeField] private float flashRate;
-    private Text text;
+    
+    [Header("Settings")]
+    [SerializeField] private int maxIndex;
+    [SerializeField] private Color _rightColor;
+    [SerializeField] private Color _wrongColor;
+    [SerializeField] private float _flashTime;
 
+    private SequenceDisplay _sequenceDisplay;
+
+    [HideInInspector] public int CurrIndex = 0; // tracks which character the player is supposed to press
     public List<char> Seq
     {
         get { return _seq; }
@@ -25,43 +29,51 @@ public class DisplayMoves : DDRComponent
     }
 
     private List<char> _seq;
-    //private bool dictHasBuilt = false; // tracks whether the dictionary has been built;
-    //private IDictionary<char, Sprite> _keyToSprite = new Dictionary<char, Sprite>(); // a dictionary that stores the gameobject a key is associated with
 
     public override void Awake()
     {
-        //if (!dictHasBuilt)
-        //    buildDictionary();
-        text = miniDisplay.GetComponentInChildren<Text>();
-
+        _sequenceDisplay = miniDisplay.GetComponent<SequenceDisplay>();
         ThrowBehavior = GameObject.FindGameObjectWithTag("Player").GetComponent<BabyThrowing>();
     }
 
     public override void Update()
     {
-        string input = Input.inputString.ToUpper();
+        char inputChar = getInput();
+        if (inputChar == '\0') return;
+        
         if (miniDisplay.gameObject.activeSelf)
         {
-            foreach (char c in input)
+            if (inputChar == _seq[CurrIndex])
             {
-                if (c == _seq[currIndex])
+                _sequenceDisplay.Flash(CurrIndex, _rightColor, _flashTime);
+                CurrIndex++;
+                if (CurrIndex >= maxIndex)
                 {
-                    StartCoroutine(Flash(text, flashRate));
-
-                    currIndex++;
-                    if (currIndex >= maxIndex)
-                    {
-                        miniDisplay.gameObject.SetActive(false);
-                        ThrowBehavior.AmmoCount++;
-                        EggBehavior.Resume();
-                        Destroy(EggBehavior.gameObject);
-                        reset();
-                    }
-                    else
-                        text.text = _seq[currIndex].ToString();
+                    _sequenceDisplay.Stop();
+                    ThrowBehavior.AmmoCount++;
+                    EggBehavior.Resume();
+                    Destroy(EggBehavior.gameObject);
+                    reset();
                 }
             }
+            else
+            {
+                // reset currIndex
+                _sequenceDisplay.Flash(CurrIndex, _wrongColor, _flashTime);
+                reset();
+            }
         }
+    }
+
+    private char getInput()
+    {
+        string fullInput = Input.inputString.ToUpper();
+        if (fullInput.Length == 0)
+        {
+            return '\0';
+        }
+
+        return fullInput[0];
     }
 
     IEnumerator Flash(Text t, float rate) {
@@ -77,66 +89,19 @@ public class DisplayMoves : DDRComponent
 
     public void Display(Vector3 eggPos)
     {
-        /*if (!dictHasBuilt)
-            buildDictionary();*/
-
         reset();
 
         if (_seq.Count <= 0)
             return;
 
         miniDisplay.gameObject.SetActive(true);
-        text.text = _seq[currIndex].ToString();
+        _sequenceDisplay.Display(_seq);
         miniDisplay.transform.position = eggPos + new Vector3(0, 1f, 0);
         miniDisplay.transform.LookAt(player.transform.position, Vector3.up);
-
-        /*
-        for (int move = 0; move < _seq.Count; move++)
-        {
-            GameObject clone = Instantiate(LetterGO);
-            clone.transform.SetParent(gameObject.transform);
-
-            LetterBehavior behavior = clone.GetComponent<LetterBehavior>();
-            behavior.LetterSprite = _keyToSprite[_seq[move]];
-            behavior.Index = move;
-            behavior.Display = GetComponent<DisplayMoves>();
-        }*/
     }
-
-    /*
-    private void buildDictionary() // builds _keyToGO (key to gameobject)
-    {
-        if (KeySprites.Count != DDRChars.Count) // check if building a dictionary is even possible
-            throw new Exception("Length of sprite list is not equal to length of char list");
-        for (int letter = 0; letter < DDRChars.Count; letter++)
-        {
-            _keyToSprite.Add(new KeyValuePair<char, Sprite>(DDRChars[letter], KeySprites[letter]));
-        }
-        print("Dictionary successfully built");
-        dictHasBuilt = true;
-    }
-
-    private void destroyChildren()
-    {
-        int numChildren = gameObject.transform.childCount;
-        foreach (Transform child in gameObject.transform)
-        {
-            Destroy(child.gameObject);
-        }
-    }
-
-    private void logDict()
-    {
-        foreach (KeyValuePair<char, Sprite> kvp in _keyToSprite)
-        {
-            string str = "Key: " + kvp.Key + ", Value: " + kvp.Value;
-            print(str);
-        }
-    }*/
 
     private void reset()
     {
-        currIndex = 0;
-        //destroyChildren();
+        CurrIndex = 0;
     }
 }
