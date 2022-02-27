@@ -5,7 +5,6 @@ public class BasicCharacterController : MonoBehaviour
     [Header("Movement Speeds")]
     [SerializeField] private float _walkSpeed = 9f;
     [SerializeField] private float _sprintSpeedMultiplier = 1.5f;
-    [SerializeField] private float _sneakSpeedMultiplier = 0.6f;
     
     [Header("Jump Settings")]
     [SerializeField] private Rigidbody _rb;
@@ -20,7 +19,16 @@ public class BasicCharacterController : MonoBehaviour
 
     [Header("Misc")]
     [SerializeField] private MenuController menu;
+    [SerializeField] private ChunkLoader _chunkLoader;
 
+    [HideInInspector] public float Distance
+    {
+        get { return _distanceRan; }
+    }
+    
+    // cache
+    private float _distanceRan = 0f;
+    
     private float _movementSpeed;
     private MovementState _movementState = MovementState.Idle;
 
@@ -54,22 +62,12 @@ public class BasicCharacterController : MonoBehaviour
             _movementState = MovementState.Sprinting;
             _movementSpeed = _walkSpeed * _sprintSpeedMultiplier;
         }
-        else if (Input.GetKey(KeyCode.C))
-        {
-            print("sneaking");
-            _movementState = MovementState.Sneaking;
-            _movementSpeed = _walkSpeed * _sneakSpeedMultiplier;
-        }
         else
         {
             _movementState = MovementState.Walking;
             _movementSpeed = _walkSpeed;
         }
-
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) {
-            _footsteps.Play();
-        }
-
+        
         float forwardSpeed = Input.GetAxisRaw("Vertical") * _movementSpeed;
         float sideSpeed = Input.GetAxisRaw("Horizontal") * _movementSpeed;
         Vector3 netMovement = transform.forward * forwardSpeed + transform.right * sideSpeed;
@@ -79,6 +77,7 @@ public class BasicCharacterController : MonoBehaviour
             _movementState = MovementState.Idle;
             _footsteps.Stop();
         }
+        else _footsteps.Play();
 
         _rb.velocity = new Vector3(netMovement.x, _rb.velocity.y, netMovement.z);
 
@@ -86,10 +85,12 @@ public class BasicCharacterController : MonoBehaviour
         {
             if (Physics.OverlapSphere(_groundCheck.position, _groundCheckRadius, _groundCheckLayerMask).Length > 0)
             {
-                print("Jump");
                 _rb.AddForce(Vector3.up * _jumpForceMagnitude, ForceMode.Impulse);
             }
         }
+        
+        // we are running straight in the z direction, so the distance is just the difference in z values
+        _distanceRan = transform.position.z - _chunkLoader.InitialPosition.z;
     }
 }
 
@@ -97,7 +98,6 @@ public enum MovementState
 {
     Idle,
     Walking,
-    Sneaking,
     Sprinting,
     Frozen
 }

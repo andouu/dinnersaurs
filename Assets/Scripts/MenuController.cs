@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MenuController : MonoBehaviour
 {
     [SerializeField] private GameObject gameUI;
+    [SerializeField] private MusicController _musicController;
     [SerializeField] private BasicCharacterController player;
     [SerializeField] private GameObject globalVolume;
     [SerializeField] private GameObject crosshair;
@@ -40,11 +41,13 @@ public class MenuController : MonoBehaviour
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         player.Unfreeze();
+        _musicController.playGameMusic();
     }
 
     public void EndResults() {
         mainMenu.SetActive(false);
         gameOver.SetActive(true);
+        _musicController.playTitleMusic();
         StartCoroutine(LerpFunction(enterPos, normalPos));
     }
 

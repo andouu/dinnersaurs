@@ -95,8 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67e8aaee2c28a82468cd39b55f3c0552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartLength: 4
   DDRChars: 450052005100460043003100320033003400
+  StartLength: 4
   Display: {fileID: 5530856944514206806, guid: ceba530b4337746428dd7cdcf8a42aa7, type: 3}
 --- !u!64 &7221845400912075472
 MeshCollider:
@@ -109,6 +109,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}

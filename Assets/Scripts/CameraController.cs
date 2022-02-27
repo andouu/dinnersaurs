@@ -16,7 +16,6 @@ public class CameraController : MonoBehaviour
     private Vector2 mouseLook;
 
     [Header("Bobbing Head")]
-    [SerializeField] private float _sneakYOffset = -0.2f;
     [SerializeField] private float _amplitude;
     [SerializeField] private float _period;
     [SerializeField] private Vector3 _restPosition = new Vector3(0, 0.5f, 0);
@@ -53,8 +52,6 @@ public class CameraController : MonoBehaviour
             transform.localPosition = new Vector3(0, calcSinusoidal(delta, _amplitude, _period) + _restPosition.y, 0);
         else if (_playerController.MovementState == MovementState.Sprinting)
             transform.localPosition = new Vector3(0, calcSinusoidal(delta, _amplitude * 1.25f, _period * 0.75f) + _restPosition.y, 0);
-        else if (_playerController.MovementState == MovementState.Sneaking)
-            transform.localPosition = new Vector3(0, calcSinusoidal(delta, _amplitude * 0.5f, _period * 2f) + _restPosition.y + _sneakYOffset, 0);
         else
             transform.localPosition = Vector3.SmoothDamp(transform.localPosition, _restPosition, ref _velocity, _smoothTime);
     }
