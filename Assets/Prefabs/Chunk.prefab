@@ -98,9 +98,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _treeSpawnChance: 0.341
-  _nestSpawnChance: 0.25
+  _nestSpawnChance: 0.5
   _treeSize: 0.001
   _nestSize: 0.0125
+  CrosshairIndicatorBehavior: {fileID: 0}
   _chunkPrefab: {fileID: 2271540685245367280}
   _treePrefab: {fileID: 1690856306926967811, guid: 95e9782b82d137248a59f5adae536926, type: 3}
   _nestPrefab: {fileID: 7778940537736215125, guid: 93b07fcb1b21c9c429cf5d198f77908e, type: 3}

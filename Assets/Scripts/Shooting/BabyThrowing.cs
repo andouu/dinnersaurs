@@ -30,6 +30,8 @@ public class BabyThrowing : MonoBehaviour
 
     [SerializeField]
     private int _numAmmo = 0;
+    public int AccumulatedAmmo => _accumulatedAmmo;
+    private int _accumulatedAmmo = 0;
     private bool _notShooting = true;
     private CrosshairCollide _collisionController;
 
@@ -88,6 +90,12 @@ public class BabyThrowing : MonoBehaviour
         }
     }
 
+    public void ChangeAmmo(int amt)
+    {
+        _numAmmo += amt;
+        _accumulatedAmmo += amt;
+    }
+    
     private IEnumerator shoot(float shotDelay, GameObject proj)
     {
         _notShooting = false;

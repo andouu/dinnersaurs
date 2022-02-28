@@ -18,7 +18,6 @@ public class ChunkTerrain : MonoBehaviour
     
     // cache
     private float _chunkWidth;
-    private float _chunkHeight;
     private float _chunkHeightScale;
 
     private bool done = false; 
@@ -26,7 +25,6 @@ public class ChunkTerrain : MonoBehaviour
     private void Awake()
     {
         _chunkWidth = _chunkPrefab.GetComponent<Renderer>().bounds.extents.z;
-        _chunkHeight = _chunkPrefab.GetComponent<Renderer>().bounds.extents.y;
         Vector3 chunkLocalScale = _chunkPrefab.transform.localScale;
         _chunkHeightScale = 1f / (chunkLocalScale.z / chunkLocalScale.x);
     }

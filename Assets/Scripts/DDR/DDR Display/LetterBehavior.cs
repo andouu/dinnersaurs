@@ -32,7 +32,7 @@ public class LetterBehavior : MonoBehaviour
     private float transition = 0f; // tracks time passed since the key has been pressed
     void Update()
     {
-        if (Display.currIndex > Index) // TODO: insane visual effects
+        if (Display.CurrIndex > Index) // TODO: insane visual effects
         {
             float lerpPct = transition / FadeTime;
             matColor = Color.Lerp(ActiveColor, InactiveColor, lerpPct);

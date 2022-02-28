@@ -8,6 +8,7 @@ TagManager:
   - DDR Display
   - Crosshair
   - Egg Projectile
+  - Gameover Menu
   layers:
   - Default
   - TransparentFX
