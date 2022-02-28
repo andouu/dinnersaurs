@@ -1593,7 +1593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShotDelay: 160
-  UnlimitedAmmo: 0
+  UnlimitedAmmo: 1
   StartingAmmo: 0
   AngleVariation: 10
   AimInterpolateTime: 0.6
@@ -2217,7 +2217,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628984481}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 5, z: -58.87}
+  m_LocalPosition: {x: 0, y: 5, z: -82.46}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children: []
   m_Father: {fileID: 1792640212}
@@ -2418,7 +2418,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 7f0fa09d7022edb4493f3437e3b98f15, type: 2}
   - {fileID: 2100000, guid: 442e8de7af27cc84aad15401d6077095, type: 2}
   - {fileID: 2100000, guid: 51eb0069a8187ce43847f14a142be390, type: 2}
+  _respawnTime: 10
+  _border: {fileID: 628984481}
   flashSpeed: 2
+  _gameoverDisplay: {fileID: 840711602}
 --- !u!135 &650341070
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2883,7 +2886,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 7f0fa09d7022edb4493f3437e3b98f15, type: 2}
   - {fileID: 2100000, guid: 442e8de7af27cc84aad15401d6077095, type: 2}
   - {fileID: 2100000, guid: 51eb0069a8187ce43847f14a142be390, type: 2}
+  _respawnTime: 15
+  _border: {fileID: 628984481}
   flashSpeed: 2
+  _gameoverDisplay: {fileID: 840711602}
 --- !u!135 &812624492
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2958,7 +2964,7 @@ GameObject:
   - component: {fileID: 840711602}
   m_Layer: 5
   m_Name: Game Over
-  m_TagString: Untagged
+  m_TagString: Gameover Menu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3947,8 +3953,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe695b5d83e2064aab275639a070049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 12
+  _startSpeed: 8
+  _speedChange: 3
+  _changeTime: 60
   target: {fileID: 301408197}
+  _rend: {fileID: 2661932451167680269}
+  _eye: {fileID: 5561386604164625352}
+  _teeth: {fileID: 7547169209010149362}
 --- !u!136 &1053845203
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4005,8 +4016,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe695b5d83e2064aab275639a070049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  _startSpeed: 7
+  _speedChange: 3
+  _changeTime: 60
   target: {fileID: 301408197}
+  _rend: {fileID: 2661932451146678044}
+  _eye: {fileID: 5561386604143623129}
+  _teeth: {fileID: 7547169209022767075}
 --- !u!95 &1100970791
 Animator:
   serializedVersion: 3
@@ -4795,7 +4811,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 7f0fa09d7022edb4493f3437e3b98f15, type: 2}
   - {fileID: 2100000, guid: 442e8de7af27cc84aad15401d6077095, type: 2}
   - {fileID: 2100000, guid: 51eb0069a8187ce43847f14a142be390, type: 2}
+  _respawnTime: 5
+  _border: {fileID: 628984481}
   flashSpeed: 2
+  _gameoverDisplay: {fileID: 840711602}
 --- !u!135 &1470840713
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5885,7 +5904,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132149001313183}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.48, y: 5, z: -47.73}
+  m_LocalPosition: {x: 3.48, y: 5, z: -71.32}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 1606719688}
@@ -5905,7 +5924,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132149013861262}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.44, y: 5, z: -42.73}
+  m_LocalPosition: {x: -3.44, y: 5, z: -66.32}
   m_LocalScale: {x: 2.3, y: 2.1, z: 2.1}
   m_Children:
   - {fileID: 561692087}
@@ -5924,7 +5943,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148894162190}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: -37.73}
+  m_LocalPosition: {x: 0, y: 5, z: -61.32}
   m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
   m_Children:
   - {fileID: 254444134}
@@ -6089,8 +6108,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe695b5d83e2064aab275639a070049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 9
+  _startSpeed: 6
+  _speedChange: 3
+  _changeTime: 60
   target: {fileID: 301408197}
+  _rend: {fileID: 3311503651833071251}
+  _eye: {fileID: 6657560128977959292}
+  _teeth: {fileID: 7547169209726876630}
 --- !u!1 &919132149001313183
 GameObject:
   m_ObjectHideFlags: 0
