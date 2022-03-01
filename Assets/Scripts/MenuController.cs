@@ -5,21 +5,32 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    [SerializeField] private GameObject gameUI;
+    [Header("Misc")]
     [SerializeField] private MusicController _musicController;
-    [SerializeField] private BasicCharacterController player;
     [SerializeField] private GameObject globalVolume;
-    [SerializeField] private GameObject crosshair;
+    [SerializeField] private CameraController playerCamera;
+    [SerializeField] private ChunkLoader _chunkLoader;
 
+    [Header("Entities")]
+    [SerializeField] private BorderBehavior borderBehavior;
+    [SerializeField] private BasicCharacterController player;
+    [SerializeField] private List<PredatorController> dinosaurs;
+    
+    [Header("Animation Settings")]
     [SerializeField] private Vector3 normalPos;
     [SerializeField] private Vector3 exitPos;
     [SerializeField] private Vector3 enterPos;
     [SerializeField] private float speed;
-
+    
+    [Header("UI")]
+    [SerializeField] private GameObject gameUI;
+    [SerializeField] private GameObject crosshair;
     [SerializeField] private Button startButton;
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject gameOver;
-
+    [SerializeField] private DisplayGameover _gameoverDisplay;
+    [SerializeField] private BabyThrowing _eggThrowBehavior;
+    [SerializeField] private GameObject _ddrDisplay;
 
     private void Start()
     {
@@ -37,7 +48,9 @@ public class MenuController : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    public void PlayGame() {
+    public void PlayGame()
+    {
+        Reset();
         globalVolume.SetActive(false);
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
@@ -46,6 +59,7 @@ public class MenuController : MonoBehaviour
     }
 
     public void EndResults() {
+        _gameoverDisplay.Reset();
         mainMenu.SetActive(false);
         gameOver.SetActive(true);
         _musicController.playTitleMusic();
@@ -62,6 +76,19 @@ public class MenuController : MonoBehaviour
         PlayGame();
         gameUI.SetActive(true);
 
+    }
+
+    private void Reset()
+    {
+        borderBehavior.Reset();
+        playerCamera.Reset();
+        player.Reset();
+        foreach (PredatorController dinosaur in dinosaurs) dinosaur.Reset();
+        _ddrDisplay.SetActive(false);
+        _chunkLoader.Reset();
+        _gameoverDisplay.DinosFed = 0;
+        _eggThrowBehavior.AccumulatedAmmo = 0;
+        _eggThrowBehavior.AmmoCount = 0;
     }
 
     IEnumerator LerpFunction(Vector3 from, Vector3 to)

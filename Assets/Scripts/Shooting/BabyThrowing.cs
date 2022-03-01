@@ -30,7 +30,7 @@ public class BabyThrowing : MonoBehaviour
 
     [SerializeField]
     private int _numAmmo = 0;
-    public int AccumulatedAmmo => _accumulatedAmmo;
+    public int AccumulatedAmmo { get => _accumulatedAmmo; set => _accumulatedAmmo = value; }
     private int _accumulatedAmmo = 0;
     private bool _notShooting = true;
     private CrosshairCollide _collisionController;

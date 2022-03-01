@@ -25,6 +25,11 @@ public class CameraController : MonoBehaviour
 
     private float delta = 0f; // current x value of sinusoidal function(dynamic camera) 
 
+    public void Reset()
+    {
+        mouseLook = Vector2.zero;
+    }
+    
     void Update()
     {
         // smooth camera lerp

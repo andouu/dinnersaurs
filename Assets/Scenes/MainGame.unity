@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.40082738, g: 0.5275091, b: 0.7308261, a: 1}
+  m_IndirectSpecularColor: {r: 0.40082738, g: 0.52753574, b: 0.7311615, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -326,10 +326,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99072844}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18.273735, y: -10.901337, z: -9.374146}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1792640212}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &99072847
@@ -1459,10 +1459,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 301408197}
+  - component: {fileID: 301408198}
   - component: {fileID: 301408196}
   - component: {fileID: 301408195}
   - component: {fileID: 301408194}
-  - component: {fileID: 301408198}
   - component: {fileID: 301408200}
   - component: {fileID: 301408201}
   m_Layer: 6
@@ -1553,8 +1553,8 @@ Transform:
   - {fileID: 1046115834}
   - {fileID: 1231067062}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: -720, z: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &301408198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1567,6 +1567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d8cf0f0af51aa498675a935429ce14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _resetPosition: {x: 0, y: 5, z: 0}
   _walkSpeed: 7
   _sprintSpeedMultiplier: 1.5
   _rb: {fileID: 301408201}
@@ -1648,7 +1649,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1792640212}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &407663950
 MonoBehaviour:
@@ -2177,18 +2178,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a90d99d2708a24e9cabb45d4ccd224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameUI: {fileID: 1462847647}
   _musicController: {fileID: 99072848}
-  player: {fileID: 301408198}
   globalVolume: {fileID: 2010963927}
-  crosshair: {fileID: 133249550}
+  playerCamera: {fileID: 1687258583}
+  _chunkLoader: {fileID: 407663950}
+  borderBehavior: {fileID: 628984483}
+  player: {fileID: 301408198}
+  dinosaurs:
+  - {fileID: 1053845202}
+  - {fileID: 1100970790}
+  - {fileID: 919132148894162195}
   normalPos: {x: 0, y: 0, z: 0}
   exitPos: {x: 3000, y: 0, z: 0}
   enterPos: {x: 0, y: 1200, z: 0}
   speed: 2
+  gameUI: {fileID: 1462847647}
+  crosshair: {fileID: 133249550}
   startButton: {fileID: 2074309898}
   mainMenu: {fileID: 1040595490}
   gameOver: {fileID: 840711600}
+  _gameoverDisplay: {fileID: 840711602}
+  _eggThrowBehavior: {fileID: 301408200}
+  _ddrDisplay: {fileID: 1710069276}
 --- !u!1 &628984481
 GameObject:
   m_ObjectHideFlags: 0
@@ -2198,10 +2209,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 628984482}
+  - component: {fileID: 628984483}
   - component: {fileID: 628984486}
   - component: {fileID: 628984485}
   - component: {fileID: 628984484}
-  - component: {fileID: 628984483}
   m_Layer: 8
   m_Name: Border
   m_TagString: Untagged
@@ -2217,11 +2228,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628984481}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 5, z: -82.46}
+  m_LocalPosition: {x: 0, y: 5, z: -100}
   m_LocalScale: {x: 4, y: 1, z: 2.5}
   m_Children: []
   m_Father: {fileID: 1792640212}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &628984483
 MonoBehaviour:
@@ -2235,7 +2246,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 082357524b35fb1448d56ae4484391b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 7.5
+  _resetPosition: {x: 0, y: 5, z: -100}
+  _moveSpeed: 5
 --- !u!64 &628984484
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2363,7 +2375,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &650341067
 GameObject:
@@ -2418,9 +2430,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 7f0fa09d7022edb4493f3437e3b98f15, type: 2}
   - {fileID: 2100000, guid: 442e8de7af27cc84aad15401d6077095, type: 2}
   - {fileID: 2100000, guid: 51eb0069a8187ce43847f14a142be390, type: 2}
-  _respawnTime: 10
-  _border: {fileID: 628984481}
-  flashSpeed: 2
   _gameoverDisplay: {fileID: 840711602}
 --- !u!135 &650341070
 SphereCollider:
@@ -2886,9 +2895,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 7f0fa09d7022edb4493f3437e3b98f15, type: 2}
   - {fileID: 2100000, guid: 442e8de7af27cc84aad15401d6077095, type: 2}
   - {fileID: 2100000, guid: 51eb0069a8187ce43847f14a142be390, type: 2}
-  _respawnTime: 15
-  _border: {fileID: 628984481}
-  flashSpeed: 2
   _gameoverDisplay: {fileID: 840711602}
 --- !u!135 &812624492
 SphereCollider:
@@ -3364,7 +3370,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f75f681fe642e184fbd0064143b9ccb4, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ec720fb0140275f489f96d58dbf136fd, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3846,7 +3852,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3890115595594189777, guid: ceba530b4337746428dd7cdcf8a42aa7, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3890115595594189777, guid: ceba530b4337746428dd7cdcf8a42aa7, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3953,10 +3959,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe695b5d83e2064aab275639a070049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startSpeed: 8
-  _speedChange: 3
-  _changeTime: 60
+  _resetPosition: {x: 3.48, y: 5, z: -80}
+  _resetRotation: {x: 0, y: 0, z: 0, w: 0}
+  _startSpeed: 9
+  _slowTime: 19
+  _slowSpeedMultipler: 0.4
+  _speedUpMultipler: 1.15
   target: {fileID: 301408197}
+  _eggEating: {fileID: 812624491}
   _rend: {fileID: 2661932451167680269}
   _eye: {fileID: 5561386604164625352}
   _teeth: {fileID: 7547169209010149362}
@@ -4016,10 +4026,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe695b5d83e2064aab275639a070049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startSpeed: 7
-  _speedChange: 3
-  _changeTime: 60
+  _resetPosition: {x: -3.44, y: 5, z: -66.32}
+  _resetRotation: {x: 0, y: 0, z: 0, w: 0}
+  _startSpeed: 7.5
+  _slowTime: 10
+  _slowSpeedMultipler: 0.4
+  _speedUpMultipler: 1.15
   target: {fileID: 301408197}
+  _eggEating: {fileID: 650341069}
   _rend: {fileID: 2661932451146678044}
   _eye: {fileID: 5561386604143623129}
   _teeth: {fileID: 7547169209022767075}
@@ -4465,7 +4479,7 @@ MonoBehaviour:
   m_Text: 'DISTANCE RAN:
 
 
-    DINOSAURS FED:
+    MEALS FED:
 
 
     EGGS COLLECTED:'
@@ -4649,7 +4663,7 @@ RectTransform:
   m_Children:
   - {fileID: 575588372}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4751,7 +4765,7 @@ RectTransform:
   - {fileID: 415085724}
   - {fileID: 1240578012}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4811,9 +4825,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 7f0fa09d7022edb4493f3437e3b98f15, type: 2}
   - {fileID: 2100000, guid: 442e8de7af27cc84aad15401d6077095, type: 2}
   - {fileID: 2100000, guid: 51eb0069a8187ce43847f14a142be390, type: 2}
-  _respawnTime: 5
-  _border: {fileID: 628984481}
-  flashSpeed: 2
   _gameoverDisplay: {fileID: 840711602}
 --- !u!135 &1470840713
 SphereCollider:
@@ -5194,7 +5205,7 @@ RectTransform:
   m_LocalScale: {x: 0.007999999, y: 0.008000002, z: 0.012800004}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: -90}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5329,10 +5340,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 99072846}
   - {fileID: 407663949}
   - {fileID: 628984482}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1882031819
 GameObject:
@@ -5455,7 +5467,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2074309896
 GameObject:
@@ -5904,7 +5916,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132149001313183}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.48, y: 5, z: -71.32}
+  m_LocalPosition: {x: 3.48, y: 5, z: -80}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 1606719688}
@@ -6021,11 +6033,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450652895479732}
+  - component: {fileID: 919132148894162195}
   - component: {fileID: 919132148894162193}
   - component: {fileID: 919132148894162192}
   - component: {fileID: 919132148894162191}
   - component: {fileID: 919132148894162194}
-  - component: {fileID: 919132148894162195}
   m_Layer: 7
   m_Name: Tarbosaurus
   m_TagString: Untagged
@@ -6108,10 +6120,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe695b5d83e2064aab275639a070049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startSpeed: 6
-  _speedChange: 3
-  _changeTime: 60
+  _resetPosition: {x: 0, y: 5, z: -61.32}
+  _resetRotation: {x: 0, y: 0, z: 0, w: 0}
+  _startSpeed: 6.5
+  _slowTime: 10
+  _slowSpeedMultipler: 0.4
+  _speedUpMultipler: 1.15
   target: {fileID: 301408197}
+  _eggEating: {fileID: 1470840712}
   _rend: {fileID: 3311503651833071251}
   _eye: {fileID: 6657560128977959292}
   _teeth: {fileID: 7547169209726876630}
@@ -6124,11 +6140,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450652654502181}
+  - component: {fileID: 1053845202}
   - component: {fileID: 1053845205}
   - component: {fileID: 1053845203}
   - component: {fileID: 1053845204}
   - component: {fileID: 1053845201}
-  - component: {fileID: 1053845202}
   m_Layer: 7
   m_Name: Velociraptor
   m_TagString: Untagged
@@ -6145,11 +6161,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450652667054388}
+  - component: {fileID: 1100970790}
   - component: {fileID: 1100970794}
   - component: {fileID: 1100970792}
   - component: {fileID: 1100970793}
   - component: {fileID: 1100970791}
-  - component: {fileID: 1100970790}
   m_Layer: 7
   m_Name: Alioramus
   m_TagString: Untagged

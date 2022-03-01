@@ -21,6 +21,14 @@ public class ChunkLoader : MonoBehaviour
     private List<GameObject> _loadedChunks = new List<GameObject>();
     private float _chunkWidth;
     private Vector3 _step;
+
+    public void Reset()
+    {
+        foreach (GameObject chunk in _loadedChunks) Destroy(chunk);
+        _loadedChunks.Clear();
+        initChunks();
+    }
+    
     private void Start()
     {
         initChunks();
