@@ -8,10 +8,8 @@ public class EggEating : MonoBehaviour
     [SerializeField] GameObject number;
     [SerializeField] Material[] nums;
 
-    [SerializeField] private float _respawnTime; // seconds
-    [SerializeField] private GameObject _border;
-    [SerializeField] float flashSpeed;
-    private SphereCollider mouth;
+    //[SerializeField] float flashSpeed;
+    //private SphereCollider mouth;
     [SerializeField] private DisplayGameover _gameoverDisplay;
 
     private PredatorController _dinoBehavior;
@@ -22,7 +20,7 @@ public class EggEating : MonoBehaviour
         currHunger = eggHunger;
         _dinoBehavior = dinosaur.GetComponent<PredatorController>();
         number.GetComponent<MeshRenderer>().material = nums[eggHunger - 1];
-        mouth = gameObject.GetComponent<SphereCollider>();
+        //mouth = gameObject.GetComponent<SphereCollider>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -32,11 +30,9 @@ public class EggEating : MonoBehaviour
             currHunger--;
         
             if (currHunger <= 0) {
-                // TODO: make the dinosaur go away
                 _gameoverDisplay.DinosFed++;
-                StartCoroutine(respawn(dinosaur));
+                _dinoBehavior.Slow(); 
                 number.SetActive(false);
-                _dinoBehavior.Active = false;
             }
             else number.GetComponent<MeshRenderer>().material = nums[currHunger - 1];
             
@@ -44,7 +40,14 @@ public class EggEating : MonoBehaviour
         }
     }
 
-    private IEnumerator respawn(GameObject dinosaur)
+    public void Reset()
+    {
+        currHunger = eggHunger;
+        number.GetComponent<MeshRenderer>().material = nums[eggHunger - 1];
+        number.SetActive(true);
+    }
+
+    /*private IEnumerator respawn()
     {
         yield return new WaitForSeconds(_respawnTime);
         Vector3 currTransform = transform.position;
@@ -53,5 +56,5 @@ public class EggEating : MonoBehaviour
         number.SetActive(true);
         number.GetComponent<MeshRenderer>().material = nums[currHunger - 1];
         dinosaur.GetComponent<PredatorController>().Active = true;
-    }
+    }*/
 }

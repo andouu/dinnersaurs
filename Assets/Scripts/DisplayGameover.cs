@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class DisplayGameover : MonoBehaviour
@@ -14,8 +15,13 @@ public class DisplayGameover : MonoBehaviour
     }
 
     private int _dinosFed;
-    
+
     private void Start()
+    {
+        Reset();
+    }
+    
+    public void Reset()
     {
         int distance = (int) _playerController.Distance;
 

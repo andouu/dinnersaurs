@@ -1,7 +1,11 @@
+using System;
 using UnityEngine;
 
 public class BasicCharacterController : MonoBehaviour
 {
+    [Header("Reset Settings")]
+    [SerializeField] private Vector3 _resetPosition;
+
     [Header("Movement Speeds")]
     [SerializeField] private float _walkSpeed = 7.5f;
     [SerializeField] private float _sprintSpeedMultiplier = 1.5f;
@@ -35,6 +39,13 @@ public class BasicCharacterController : MonoBehaviour
         set => _movementState = value;
     }
 
+    public void Reset()
+    {
+        _movementState = MovementState.Idle;
+        _distanceRan = 0f;
+        transform.position = _resetPosition;
+    }
+
     public void Freeze() {
         _movementState = MovementState.Frozen;
     }
@@ -49,9 +60,19 @@ public class BasicCharacterController : MonoBehaviour
         menu.EndResults();
     }
 
+    private void Start()
+    {
+        _footsteps.Play();
+        _footsteps.Pause();
+    }
+
     void Update()
     {
-        if (_movementState == MovementState.Frozen) return;
+        if (_movementState == MovementState.Frozen)
+        {
+            _footsteps.Pause();
+            return;
+        }
 
         bool grounded = Physics.OverlapSphere(_groundCheck.position, _groundCheckRadius, _groundCheckLayerMask).Length >
                         0;
@@ -73,9 +94,9 @@ public class BasicCharacterController : MonoBehaviour
         if (netMovement == Vector3.zero)
         {
             _movementState = MovementState.Idle;
-            _footsteps.Stop();
+            _footsteps.Pause();
         }
-        else _footsteps.Play();
+        else _footsteps.UnPause();
 
         _rb.velocity = new Vector3(netMovement.x, _rb.velocity.y, netMovement.z);
 
