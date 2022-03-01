@@ -44,9 +44,9 @@ public class BasicCharacterController : MonoBehaviour
     }
 
     public void Die() {
-        // chomp.Play();
-        // menu.PauseGame();
-        // menu.EndResults();
+        chomp.Play();
+        menu.PauseGame();
+        menu.EndResults();
     }
 
     void Update()
