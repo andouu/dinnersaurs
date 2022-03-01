@@ -31,6 +31,7 @@ public class MenuController : MonoBehaviour
 
     public void PauseGame() {
         Cursor.lockState = CursorLockMode.None;
+        gameUI.SetActive(false);
         globalVolume.SetActive(true);
         player.Freeze();
         Time.timeScale = 0;

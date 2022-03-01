@@ -232,7 +232,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8d6c8dc06995e474a9d47da42dfa5fee, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8cebd9ddb09defb48833babcc9455b1c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.752
   m_Pitch: 1
@@ -1593,7 +1593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShotDelay: 160
-  UnlimitedAmmo: 1
+  UnlimitedAmmo: 0
   StartingAmmo: 0
   AngleVariation: 10
   AimInterpolateTime: 0.6
@@ -2218,7 +2218,7 @@ Transform:
   m_GameObject: {fileID: 628984481}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 5, z: -82.46}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_LocalScale: {x: 4, y: 1, z: 2.5}
   m_Children: []
   m_Father: {fileID: 1792640212}
   m_RootOrder: 1
