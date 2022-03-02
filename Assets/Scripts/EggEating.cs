@@ -5,12 +5,11 @@ public class EggEating : MonoBehaviour
 {
     [SerializeField] int eggHunger;
     [SerializeField] GameObject dinosaur;
-    [SerializeField] GameObject number;
-    [SerializeField] Material[] nums;
 
     //[SerializeField] float flashSpeed;
     //private SphereCollider mouth;
     [SerializeField] private DisplayGameover _gameoverDisplay;
+    [SerializeField] private AudioSource chomp;
 
     private PredatorController _dinoBehavior;
     private int currHunger;
@@ -19,7 +18,6 @@ public class EggEating : MonoBehaviour
     {
         currHunger = eggHunger;
         _dinoBehavior = dinosaur.GetComponent<PredatorController>();
-        number.GetComponent<MeshRenderer>().material = nums[eggHunger - 1];
         //mouth = gameObject.GetComponent<SphereCollider>();
     }
 
@@ -28,13 +26,13 @@ public class EggEating : MonoBehaviour
         if (other.gameObject.CompareTag("Egg Projectile"))
         {
             currHunger--;
+            _gameoverDisplay.DinosFed++;
+            chomp.Play();
         
             if (currHunger <= 0) {
-                _gameoverDisplay.DinosFed++;
+                
                 _dinoBehavior.Slow(); 
-                number.SetActive(false);
             }
-            else number.GetComponent<MeshRenderer>().material = nums[currHunger - 1];
             
             Destroy(other.gameObject);
         }
@@ -43,8 +41,6 @@ public class EggEating : MonoBehaviour
     public void Reset()
     {
         currHunger = eggHunger;
-        number.GetComponent<MeshRenderer>().material = nums[eggHunger - 1];
-        number.SetActive(true);
     }
 
     /*private IEnumerator respawn()

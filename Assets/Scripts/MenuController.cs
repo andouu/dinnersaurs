@@ -10,6 +10,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject globalVolume;
     [SerializeField] private CameraController playerCamera;
     [SerializeField] private ChunkLoader _chunkLoader;
+    [SerializeField] private int highScore;
 
     [Header("Entities")]
     [SerializeField] private BorderBehavior borderBehavior;
@@ -26,6 +27,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject gameUI;
     [SerializeField] private GameObject crosshair;
     [SerializeField] private Button startButton;
+    [SerializeField] private Button cutsceneButton;
+    [SerializeField] private Text highScoreText;
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject gameOver;
     [SerializeField] private DisplayGameover _gameoverDisplay;
@@ -37,6 +40,8 @@ public class MenuController : MonoBehaviour
         PauseGame();
         gameUI.SetActive(false);
         startButton.interactable = false;
+        if (StaticVariables.highScore > 700) cutsceneButton.interactable = true;
+        highScoreText.text = "HIGH SCORE: " + StaticVariables.highScore;
         Enter();
     }
 
