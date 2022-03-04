@@ -8,6 +8,7 @@ public class Cutscene : MonoBehaviour
     [SerializeField] private VideoPlayer vp;
     [SerializeField] private ScenesManager sm;
 
+
     private void Update()
     {
         if (!vp.isPlaying && vp.frame > 5) {
