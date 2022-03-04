@@ -3876,9 +3876,11 @@ MonoBehaviour:
   _resetPosition: {x: 3.48, y: 5, z: -80}
   _resetRotation: {x: 0, y: 0, z: 0, w: 0}
   _startSpeed: 9
-  _slowTime: 19
+  _slowTime: 15
   _slowSpeedMultipler: 0.4
-  _speedUpMultipler: 1.15
+  _speedUpMultipler: 1.5
+  _speedCreep: 0.001
+  _maxSpeed: 13
   target: {fileID: 301408197}
   _eggEating: {fileID: 812624491}
   _rend: {fileID: 2661932451167680269}
@@ -3942,10 +3944,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _resetPosition: {x: -3.44, y: 5, z: -66.32}
   _resetRotation: {x: 0, y: 0, z: 0, w: 0}
-  _startSpeed: 7.5
+  _startSpeed: 7
   _slowTime: 10
   _slowSpeedMultipler: 0.4
-  _speedUpMultipler: 1.15
+  _speedUpMultipler: 1.5
+  _speedCreep: 0.05
+  _maxSpeed: 11
   target: {fileID: 301408197}
   _eggEating: {fileID: 650341069}
   _rend: {fileID: 2661932451146678044}
@@ -6282,10 +6286,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _resetPosition: {x: 0, y: 5, z: -61.32}
   _resetRotation: {x: 0, y: 0, z: 0, w: 0}
-  _startSpeed: 6.5
-  _slowTime: 10
+  _startSpeed: 5
+  _slowTime: 5
   _slowSpeedMultipler: 0.4
-  _speedUpMultipler: 1.15
+  _speedUpMultipler: 1.5
+  _speedCreep: 0.05
+  _maxSpeed: 9
   target: {fileID: 301408197}
   _eggEating: {fileID: 1470840712}
   _rend: {fileID: 3311503651833071251}

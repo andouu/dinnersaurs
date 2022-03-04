@@ -56,6 +56,8 @@ public class SequenceDisplay : MonoBehaviour
                 ref ddrChar.velocity, _smoothTime);
 
             Text text = clone.GetComponent<Text>();
+            if (text == null)
+                continue;
             text.text = _seq[ch].ToString();
             
             Color textCol = text.color;
@@ -73,7 +75,7 @@ public class SequenceDisplay : MonoBehaviour
         {
             return;
         }
-
+        StopAllCoroutines();
         _seq = sequence;
         initCharData(sequence.Count);
         canPress = true;
@@ -139,7 +141,8 @@ public class SequenceDisplay : MonoBehaviour
     {
         foreach (DDRChar c in _charData)
         {
-            Destroy(c.gameObject);
+            if (c.gameObject != null)
+                Destroy(c.gameObject);
         }
         _charData.Clear();
         for (int i = 0; i < len; i++)
