@@ -13,7 +13,9 @@ public class PredatorController : MonoBehaviour
     [SerializeField] private float _startSpeed;
     [SerializeField] private float _slowTime = 10; // seconds
     [SerializeField] private float _slowSpeedMultipler = 0.6f;
-    [SerializeField] private float _speedUpMultipler = 1.15f;
+    [SerializeField] private float _speedUpMultipler = 0.15f;
+    [SerializeField] private float _speedCreep = 0.15f;
+    [SerializeField] private float _maxSpeed = 16f;
     [SerializeField] private Transform target;
 
     public bool Active
@@ -29,6 +31,7 @@ public class PredatorController : MonoBehaviour
     private bool _active = true;
     private float _targetSpeed;
     private float _currSpeed;
+    private bool _slowing = false;
 
     public void Reset()
     {
@@ -40,6 +43,7 @@ public class PredatorController : MonoBehaviour
 
     public void Slow()
     {
+        _slowing = true;
         _targetSpeed *= _slowSpeedMultipler;
         _currSpeed = _targetSpeed;
         StartCoroutine(SpeedUp());
@@ -51,6 +55,7 @@ public class PredatorController : MonoBehaviour
         _targetSpeed /= _slowSpeedMultipler;
         _targetSpeed *= _speedUpMultipler;
         _currSpeed = _targetSpeed;
+        _slowing = false;
         _eggEating.Reset();
     }
 
@@ -76,6 +81,8 @@ public class PredatorController : MonoBehaviour
         _currSpeed = _targetSpeed; // TODO: make smooth speed change (acceleration)
         transform.position = Vector3.MoveTowards(transform.position, target.transform.position, _currSpeed * Time.deltaTime);
         transform.LookAt(target.transform.position, Vector3.up);
+        if (!_slowing) _targetSpeed += _speedCreep * Time.deltaTime;
+        _targetSpeed = Mathf.Clamp(_targetSpeed, 0f, _maxSpeed);
     }
 
     private void OnCollisionStay(Collision collisionInfo)
