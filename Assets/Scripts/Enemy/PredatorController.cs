@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 // If we give individual dinosaurs cool features then we can turn this into a parent class for the different dinosaurs

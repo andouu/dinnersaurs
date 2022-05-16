@@ -9,6 +9,11 @@ public class BasicCharacterController : MonoBehaviour
     [Header("Movement Speeds")]
     [SerializeField] private float _walkSpeed = 7.5f;
     [SerializeField] private float _sprintSpeedMultiplier = 1.5f;
+    [SerializeField] private StaminaBar _staminaBar;
+    [SerializeField] private float _maxStamina = 1f;
+    [SerializeField] private float _staminaUsePerSec = 0.25f;
+    [SerializeField] private float _staminaGainPerSec = 0.2f;
+    private float _stamina;
     
     [Header("Jump Settings")]
     [SerializeField] private Rigidbody _rb;
@@ -44,6 +49,8 @@ public class BasicCharacterController : MonoBehaviour
         _movementState = MovementState.Idle;
         _distanceRan = 0f;
         transform.position = _resetPosition;
+        _staminaBar.SetMaxValue(_maxStamina);
+        _stamina = _maxStamina;
     }
 
     public void Freeze() {
@@ -64,6 +71,8 @@ public class BasicCharacterController : MonoBehaviour
     {
         _footsteps.Play();
         _footsteps.Pause();
+        _staminaBar.SetMaxValue(_maxStamina);
+        _stamina = _maxStamina;
     }
 
     void Update()
@@ -76,15 +85,27 @@ public class BasicCharacterController : MonoBehaviour
 
         bool grounded = Physics.OverlapSphere(_groundCheck.position, _groundCheckRadius, _groundCheckLayerMask).Length >
                         0;
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && _stamina > 0f)
         {
-            _movementState = MovementState.Sprinting;
-            _movementSpeed = _walkSpeed * _sprintSpeedMultiplier;
+            if (_stamina > 0.05f) // ignore the bad coding, it works
+            {
+                _movementState = MovementState.Sprinting;
+                _movementSpeed = _walkSpeed * _sprintSpeedMultiplier;
+            }
+            else
+            {
+                _movementState = MovementState.Walking;
+                _movementSpeed = _walkSpeed;
+            }
+            _stamina = Mathf.Max(0f, _stamina - (_staminaUsePerSec * Time.deltaTime));
+            _staminaBar.SetValue(_stamina);
         }
         else
         {
             _movementState = MovementState.Walking;
             _movementSpeed = _walkSpeed;
+            _stamina = Mathf.Min(_maxStamina, _stamina + (_staminaGainPerSec * Time.deltaTime));
+            _staminaBar.SetValue(_stamina);
         }
         
         float forwardSpeed = Input.GetAxisRaw("Vertical") * _movementSpeed;
