@@ -2282,7 +2282,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628984481}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 5, z: -100}
+  m_LocalPosition: {x: 0, y: 5, z: -150}
   m_LocalScale: {x: 4, y: 1, z: 2.5}
   m_Children: []
   m_Father: {fileID: 1792640212}
@@ -4017,8 +4017,9 @@ MonoBehaviour:
   _slowSpeedMultipler: 0.4
   _speedUpMultipler: 1.5
   _speedCreep: 0.001
+  _speedGainPerSec: 0.02
   _maxSpeed: 13
-  target: {fileID: 301408197}
+  _player: {fileID: 301408197}
   _eggEating: {fileID: 812624491}
   _rend: {fileID: 2661932451167680269}
   _eye: {fileID: 5561386604164625352}
@@ -4086,8 +4087,9 @@ MonoBehaviour:
   _slowSpeedMultipler: 0.4
   _speedUpMultipler: 1.5
   _speedCreep: 0.05
+  _speedGainPerSec: 0.02
   _maxSpeed: 11
-  target: {fileID: 301408197}
+  _player: {fileID: 301408197}
   _eggEating: {fileID: 650341069}
   _rend: {fileID: 2661932451146678044}
   _eye: {fileID: 5561386604143623129}
@@ -6648,8 +6650,9 @@ MonoBehaviour:
   _slowSpeedMultipler: 0.4
   _speedUpMultipler: 1.5
   _speedCreep: 0.05
+  _speedGainPerSec: 0.02
   _maxSpeed: 9
-  target: {fileID: 301408197}
+  _player: {fileID: 301408197}
   _eggEating: {fileID: 1470840712}
   _rend: {fileID: 3311503651833071251}
   _eye: {fileID: 6657560128977959292}

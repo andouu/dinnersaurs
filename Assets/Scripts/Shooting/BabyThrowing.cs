@@ -40,6 +40,9 @@ public class BabyThrowing : MonoBehaviour
 
     void Awake()
     {
+        // extra crude but necessary code
+        ProjectileBehavior.projectiles = new List<Transform>();
+        
         _collisionController = GetComponentInChildren<CrosshairCollide>();
         _numAmmo = StartingAmmo;
         _maxAngle = StartingAngleAdd + AngleVariation;
@@ -52,7 +55,7 @@ public class BabyThrowing : MonoBehaviour
     }
 
     void Update()
-    {    
+    {
         bool collectingEgg = false;
         if (_collisionController.QueriedObj && _collisionController.QueriedObj.tag == "Nest Egg")
         {

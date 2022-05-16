@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,8 +13,10 @@ public class PredatorController : MonoBehaviour
     [SerializeField] private float _slowSpeedMultipler = 0.6f;
     [SerializeField] private float _speedUpMultipler = 0.15f;
     [SerializeField] private float _speedCreep = 0.15f;
+    [SerializeField] private float _speedGainPerSec = 0.02f;
     [SerializeField] private float _maxSpeed = 16f;
-    [SerializeField] private Transform target;
+    [SerializeField] private Transform _player;
+    private Transform target;
 
     public bool Active
     {
@@ -21,6 +24,7 @@ public class PredatorController : MonoBehaviour
         set => _active = value;
     }
 
+    [SerializeField] private float _minProjectileDistance = 2f;
     [SerializeField] private EggEating _eggEating;
     [SerializeField] SkinnedMeshRenderer _rend;
     [SerializeField] private GameObject _eye;
@@ -32,6 +36,7 @@ public class PredatorController : MonoBehaviour
 
     public void Reset()
     {
+        target = _player;
         _targetSpeed = _startSpeed;
         transform.position = _resetPosition;
         transform.rotation = _resetRotation;
@@ -58,10 +63,27 @@ public class PredatorController : MonoBehaviour
 
     private void Awake()
     {
+        target = _player;
         _targetSpeed = _startSpeed;
     }
 
-    void Update()
+    private void Retarget(out bool targetIsProjectile)
+    {
+        targetIsProjectile = false;
+        float minDist = Vector3.Distance(transform.position, _player.position);
+        foreach (Transform projectile in ProjectileBehavior.projectiles)
+        {
+            float newDist = Vector3.Distance(transform.position, projectile.position);
+            if (newDist < minDist)
+            {
+                minDist = newDist;
+                target = projectile;
+                targetIsProjectile = true;
+            }
+        }
+    }
+    
+    private void Update()
     {
         if (!_active)
         {
@@ -75,11 +97,24 @@ public class PredatorController : MonoBehaviour
         _teeth.SetActive(true);
         _rend.enabled = true;
         
+        _targetSpeed += _speedGainPerSec * Time.deltaTime; // dinosaurs speed up over time regardless
         _currSpeed = _targetSpeed; // TODO: make smooth speed change (acceleration)
-        transform.position = Vector3.MoveTowards(transform.position, target.transform.position, _currSpeed * Time.deltaTime);
-        transform.LookAt(target.transform.position, Vector3.up);
+        transform.position = Vector3.MoveTowards(transform.position, target.position, _currSpeed * Time.deltaTime);
+        transform.LookAt(target.position, Vector3.up);
         if (!_slowing) _targetSpeed += _speedCreep * Time.deltaTime;
         _targetSpeed = Mathf.Clamp(_targetSpeed, 0f, _maxSpeed);
+    }
+
+    private void LateUpdate()
+    {
+        bool targetIsProjectile;
+        Retarget(out targetIsProjectile);
+        if (targetIsProjectile && Vector3.Distance(transform.position, target.position) < _minProjectileDistance)
+        {
+            Destroy(target.gameObject);
+        }
+
+        if (ProjectileBehavior.projectiles.Count == 0) target = _player;
     }
 
     private void OnCollisionStay(Collision collisionInfo)

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ProjectileBehavior : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class ProjectileBehavior : MonoBehaviour
 
     private Camera mainCam;
 
+    public static List<Transform> projectiles; // bugs handled in BabyThrowing.cs
+
     private void Awake()
     {
         mainCam = Camera.main;
@@ -18,6 +22,8 @@ public class ProjectileBehavior : MonoBehaviour
 
     void Start()
     {
+        projectiles.Add(transform);
+        
         angleAdd = -angleAdd;
         Vector3 targetVec = calcAngledForward();
         rb.AddForce(targetVec * launchForce, ForceMode.Impulse);
@@ -34,5 +40,10 @@ public class ProjectileBehavior : MonoBehaviour
         Vector3 cF = mainCam.transform.forward;
         Vector3 angled = Quaternion.AngleAxis(mainCam.transform.localEulerAngles.x + 2f * angleAdd, Vector3.right) * Vector3.one;
         return new Vector3(cF.x, angled.y, cF.z).normalized;
+    }
+
+    private void OnDestroy()
+    {
+        projectiles.Remove(transform);
     }
 }
