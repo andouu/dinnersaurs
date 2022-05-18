@@ -5,9 +5,14 @@ using UnityEngine;
 // If we give individual dinosaurs cool features then we can turn this into a parent class for the different dinosaurs
 public class PredatorController : MonoBehaviour
 {
+    [Header("Reset")]
     [SerializeField] private Vector3 _resetPosition;
     [SerializeField] private Quaternion _resetRotation;
 
+    [Header("Rotation")]
+    [SerializeField] private float _rotationSpeed = 5f;
+    
+    [Header("Speed")]
     [SerializeField] private float _startSpeed;
     [SerializeField] private float _slowTime = 10; // seconds
     [SerializeField] private float _slowSpeedMultipler = 0.6f;
@@ -15,24 +20,31 @@ public class PredatorController : MonoBehaviour
     [SerializeField] private float _speedCreep = 0.15f;
     [SerializeField] private float _speedGainPerSec = 0.02f;
     [SerializeField] private float _maxSpeed = 16f;
-    [SerializeField] private Transform _player;
-    private Transform target;
-
-    public bool Active
-    {
-        get => _active;
-        set => _active = value;
-    }
-
+    private float _targetSpeed;
+    private float _currSpeed;
+    private bool _slowing = false;
+    
+    [Header("Eating")]
     [SerializeField] private float _minProjectileDistance = 2f;
     [SerializeField] private EggEating _eggEating;
     [SerializeField] SkinnedMeshRenderer _rend;
     [SerializeField] private GameObject _eye;
     [SerializeField] private GameObject _teeth;
+    
+    [Header("Targets")]
+    [SerializeField] private Transform _player;
+    private Transform target;
+    public Transform Target
+    {
+        get => target;
+    }
+    
     private bool _active = true;
-    private float _targetSpeed;
-    private float _currSpeed;
-    private bool _slowing = false;
+    public bool Active
+    {
+        get => _active;
+        set => _active = value;
+    }
 
     public void Reset()
     {
@@ -45,6 +57,7 @@ public class PredatorController : MonoBehaviour
 
     public void Slow()
     {
+        print("slowing");
         _slowing = true;
         _targetSpeed *= _slowSpeedMultipler;
         _currSpeed = _targetSpeed;
@@ -72,9 +85,9 @@ public class PredatorController : MonoBehaviour
         targetIsProjectile = false;
         float minDist = Vector3.Distance(transform.position, _player.position);
         foreach (Transform projectile in ProjectileBehavior.projectiles)
-        {
+        {   
             float newDist = Vector3.Distance(transform.position, projectile.position);
-            if (newDist < minDist)
+            if (newDist > 1f && newDist < minDist)
             {
                 minDist = newDist;
                 target = projectile;
@@ -82,7 +95,25 @@ public class PredatorController : MonoBehaviour
             }
         }
     }
-    
+
+    private void RotateY()
+    {
+        Vector3 dir = target.position - transform.position;
+        float angle = Vector2.SignedAngle(new Vector2(dir.x, dir.z),
+            new Vector3(transform.forward.x, transform.forward.z));
+        transform.Rotate(-transform.eulerAngles.x, angle, -transform.eulerAngles.z, Space.World);
+    }
+
+    /*private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + 10f * transform.forward.normalized);
+
+        Gizmos.color = Color.green;
+        Vector3 dir = _player.position - transform.position;
+        Gizmos.DrawLine(transform.position, transform.position + 10f * dir.normalized);
+    }*/
+
     private void Update()
     {
         if (!_active)
@@ -97,10 +128,14 @@ public class PredatorController : MonoBehaviour
         _teeth.SetActive(true);
         _rend.enabled = true;
         
+        if (!target) target = _player;
+
+        RotateY();
+        
         _targetSpeed += _speedGainPerSec * Time.deltaTime; // dinosaurs speed up over time regardless
         _currSpeed = _targetSpeed; // TODO: make smooth speed change (acceleration)
         transform.position = Vector3.MoveTowards(transform.position, target.position, _currSpeed * Time.deltaTime);
-        transform.LookAt(target.position, Vector3.up);
+        
         if (!_slowing) _targetSpeed += _speedCreep * Time.deltaTime;
         _targetSpeed = Mathf.Clamp(_targetSpeed, 0f, _maxSpeed);
     }

@@ -12,7 +12,8 @@ public class DisplayMoves : DDRComponent
     public EggDDR EggBehavior;
     [SerializeField] private Canvas miniDisplay;
     [SerializeField] private GameObject player;
-    
+    private BasicCharacterController _playerController;
+
     [Header("Settings")]
     [SerializeField] private int maxIndex;
     [SerializeField] private Color _rightColor;
@@ -34,6 +35,7 @@ public class DisplayMoves : DDRComponent
     {
         _sequenceDisplay = miniDisplay.GetComponent<SequenceDisplay>();
         ThrowBehavior = GameObject.FindGameObjectWithTag("Player").GetComponent<BabyThrowing>();
+        _playerController = player.GetComponent<BasicCharacterController>();
     }
 
     public override void Update()
@@ -51,6 +53,7 @@ public class DisplayMoves : DDRComponent
                 {
                     _sequenceDisplay.Stop();
                     ThrowBehavior.ChangeAmmo(1);
+                    _playerController.GrabEgg();
                     EggBehavior.Resume();
                     Destroy(EggBehavior.gameObject);
                     reset();
