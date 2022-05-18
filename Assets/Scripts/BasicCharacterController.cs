@@ -8,11 +8,11 @@ public class BasicCharacterController : MonoBehaviour
 
     [Header("Movement Speeds")]
     [SerializeField] private float _walkSpeed = 7.5f;
-    [SerializeField] private float _sprintSpeedMultiplier = 1.5f;
+    [SerializeField] private float _sprintSpeedMultiplier = 1.65f;
     [SerializeField] private StaminaBar _staminaBar;
     [SerializeField] private float _maxStamina = 1f;
     [SerializeField] private float _staminaUsePerSec = 0.25f;
-    [SerializeField] private float _staminaGainPerSec = 0.2f;
+    [SerializeField] private float _staminaGainPerEgg = 0.5f;
     private float _stamina;
     
     [Header("Jump Settings")]
@@ -104,8 +104,6 @@ public class BasicCharacterController : MonoBehaviour
         {
             _movementState = MovementState.Walking;
             _movementSpeed = _walkSpeed;
-            _stamina = Mathf.Min(_maxStamina, _stamina + (_staminaGainPerSec * Time.deltaTime));
-            _staminaBar.SetValue(_stamina);
         }
         
         float forwardSpeed = Input.GetAxisRaw("Vertical") * _movementSpeed;
@@ -134,6 +132,12 @@ public class BasicCharacterController : MonoBehaviour
 
             // we are running straight in the z direction, so the distance is just the difference in z values
         _distanceRan = transform.position.z - _chunkLoader.InitialPosition.z;
+    }
+    
+    public void GrabEgg()
+    {
+        _stamina = Mathf.Min(_maxStamina, _stamina + _staminaGainPerEgg);
+        _staminaBar.SetValue(_stamina);
     }
 }
 
