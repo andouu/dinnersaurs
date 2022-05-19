@@ -55,6 +55,10 @@ public class ChunkLoader : MonoBehaviour
     {
         GameObject clone = Instantiate(_chunkPrefab, pos, neg90);
         clone.GetComponent<ChunkTerrain>().CrosshairIndicatorBehavior = _crosshairIndicatorBehavior;
+        foreach (RandomWall wallBehavior in clone.GetComponentsInChildren<RandomWall>())
+        {
+            wallBehavior.Type = "straight";
+        }
         return clone;
     }
     

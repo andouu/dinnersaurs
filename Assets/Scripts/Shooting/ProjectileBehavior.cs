@@ -13,6 +13,7 @@ public class ProjectileBehavior : MonoBehaviour
 
     private Camera mainCam;
 
+    public bool HasTouchedGround = false;
     public static List<Transform> projectiles; // bugs handled in BabyThrowing.cs
 
     private void Awake()
@@ -33,6 +34,14 @@ public class ProjectileBehavior : MonoBehaviour
         torque.y = Random.Range(-torqueRange, torqueRange);
         torque.z = Random.Range(-torqueRange, torqueRange);
         rb.AddTorque(torque);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 8)
+        {
+            HasTouchedGround = true;
+        }
     }
 
     private Vector3 calcAngledForward() // degs

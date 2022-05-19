@@ -28,13 +28,14 @@ public class BasicCharacterController : MonoBehaviour
 
     [Header("Misc")]
     [SerializeField] private MenuController menu;
-    [SerializeField] private ChunkLoaderV2 _chunkLoader;
+    [SerializeField] private ChunkLoader _chunkLoader;
+    // [SerializeField] private ChunkLoaderV2 _chunkLoader;
 
     [HideInInspector] public float Distance => _distanceRan;
 
     // cache
     private float _distanceRan = 0f;
-    private Vector3 _resetPosition;
+    private Vector3 _resetPosition = new Vector3(0, 5, 0);
     private float _movementSpeed;
     private MovementState _movementState = MovementState.Idle;
 
@@ -69,8 +70,8 @@ public class BasicCharacterController : MonoBehaviour
 
     private void Start()
     {
-        Vector3 centerChunkPos = _chunkLoader.CenterChunk.gameObject.transform.position;
-        _resetPosition = new Vector3(centerChunkPos.x, _resetY, centerChunkPos.z);
+        // Vector3 centerChunkPos = _chunkLoader.CenterChunk.gameObject.transform.position;
+        // _resetPosition = new Vector3(centerChunkPos.x, _resetY, centerChunkPos.z);
         _footsteps.Play();
         _footsteps.Pause();
         _staminaBar.SetMaxValue(_maxStamina);

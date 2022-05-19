@@ -24,7 +24,6 @@ public class RandomWall : MonoBehaviour
         Vector3 selectedLocalPos = transform.localPosition;
         if (Type == "left" && isLeftSide)
         {
-            print("left");
             selectedLocalPos = new Vector3(
                 -selectedLocalPos.y, selectedLocalPos.x, selectedLocalPos.z);
             selectedGo.transform.localRotation *= Quaternion.Euler(new Vector3(0, 0, -90f));
@@ -32,7 +31,6 @@ public class RandomWall : MonoBehaviour
 
         if (Type == "right" && !isLeftSide)
         {
-            print("right");
             selectedLocalPos = new Vector3(selectedLocalPos.y,
                 -selectedLocalPos.x, selectedLocalPos.z);
             selectedGo.transform.localRotation *= Quaternion.Euler(new Vector3(0, 0, 90f));
