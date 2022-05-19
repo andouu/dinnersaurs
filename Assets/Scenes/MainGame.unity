@@ -1636,7 +1636,7 @@ MonoBehaviour:
   _footsteps: {fileID: 1046115835}
   chomp: {fileID: 1231067063}
   menu: {fileID: 575588373}
-  _chunkLoader: {fileID: 407663950}
+  _chunkLoader: {fileID: 407663951}
 --- !u!114 &301408200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1685,7 +1685,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 407663949}
-  - component: {fileID: 407663950}
+  - component: {fileID: 407663951}
   m_Layer: 8
   m_Name: Terrain Manager
   m_TagString: Untagged
@@ -1707,7 +1707,7 @@ Transform:
   m_Father: {fileID: 1792640212}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &407663950
+--- !u!114 &407663951
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1716,7 +1716,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 407663948}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f362491756f942b4894e1607449858f9, type: 3}
+  m_Script: {fileID: 11500000, guid: a1a4991b82a41b34ea870b8868f6714d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InitialPosition: {x: 0, y: 0, z: 0}
@@ -2156,7 +2156,7 @@ MonoBehaviour:
   _musicController: {fileID: 99072848}
   globalVolume: {fileID: 2010963927}
   playerCamera: {fileID: 1687258583}
-  _chunkLoader: {fileID: 407663950}
+  _chunkLoader: {fileID: 0}
   highScore: 0
   borderBehavior: {fileID: 628984483}
   player: {fileID: 301408198}

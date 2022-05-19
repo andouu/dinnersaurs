@@ -4,7 +4,7 @@ using UnityEngine;
 public class BasicCharacterController : MonoBehaviour
 {
     [Header("Reset Settings")]
-    [SerializeField] private Vector3 _resetPosition;
+    [SerializeField] private float _resetY;
 
     [Header("Movement Speeds")]
     [SerializeField] private float _walkSpeed = 7.5f;
@@ -28,13 +28,13 @@ public class BasicCharacterController : MonoBehaviour
 
     [Header("Misc")]
     [SerializeField] private MenuController menu;
-    [SerializeField] private ChunkLoader _chunkLoader;
+    [SerializeField] private ChunkLoaderV2 _chunkLoader;
 
     [HideInInspector] public float Distance => _distanceRan;
 
     // cache
     private float _distanceRan = 0f;
-    
+    private Vector3 _resetPosition;
     private float _movementSpeed;
     private MovementState _movementState = MovementState.Idle;
 
@@ -69,6 +69,8 @@ public class BasicCharacterController : MonoBehaviour
 
     private void Start()
     {
+        Vector3 centerChunkPos = _chunkLoader.CenterChunk.gameObject.transform.position;
+        _resetPosition = new Vector3(centerChunkPos.x, _resetY, centerChunkPos.z);
         _footsteps.Play();
         _footsteps.Pause();
         _staminaBar.SetMaxValue(_maxStamina);
@@ -130,7 +132,7 @@ public class BasicCharacterController : MonoBehaviour
 
         if (!grounded) _movementState = MovementState.Jumping;
 
-            // we are running straight in the z direction, so the distance is just the difference in z values
+        // we are running straight in the z direction, so the distance is just the difference in z values
         _distanceRan = transform.position.z - _chunkLoader.InitialPosition.z;
     }
     
