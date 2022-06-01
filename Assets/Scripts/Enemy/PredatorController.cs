@@ -80,6 +80,7 @@ public class PredatorController : MonoBehaviour
         _targetSpeed = _startSpeed;
     }
 
+
     private void Retarget(out bool targetIsProjectile)
     {
         targetIsProjectile = false;
@@ -130,7 +131,7 @@ public class PredatorController : MonoBehaviour
         
         if (!target) target = _player;
 
-        RotateY();
+        //RotateY();
         
         _targetSpeed += _speedGainPerSec * Time.deltaTime; // dinosaurs speed up over time regardless
         _currSpeed = _targetSpeed; // TODO: make smooth speed change (acceleration)
@@ -140,6 +141,7 @@ public class PredatorController : MonoBehaviour
         _targetSpeed = Mathf.Clamp(_targetSpeed, 0f, _maxSpeed);
     }
 
+    /*
     private void LateUpdate()
     {
         bool targetIsProjectile;
@@ -150,7 +152,7 @@ public class PredatorController : MonoBehaviour
         }
 
         if (ProjectileBehavior.projectiles.Count == 0) target = _player;
-    }
+    }*/
 
     private void OnCollisionStay(Collision collisionInfo)
     {

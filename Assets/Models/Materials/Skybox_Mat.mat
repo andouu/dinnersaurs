@@ -97,10 +97,10 @@ Material:
     - _DstBlend: 0
     - _EnableFog: 1
     - _EnableRotation: 0
-    - _Exposure: 1.1
+    - _Exposure: 1.3
     - _FogFill: 0.339
-    - _FogHeight: 0.411
-    - _FogIntensity: 0.845
+    - _FogHeight: 0.43
+    - _FogIntensity: 0.96
     - _FogMessage: 0
     - _FogPosition: 0
     - _FogSmoothness: 0.01
@@ -132,5 +132,5 @@ Material:
     - _SkyTint: {r: 0.62830186, g: 0.9013258, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
-    - _TintColor: {r: 0, g: 0.7489295, b: 1, a: 1}
+    - _TintColor: {r: 0, g: 0.71671367, b: 1, a: 1}
   m_BuildTextureStacks: []

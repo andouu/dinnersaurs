@@ -53,7 +53,7 @@ public class DisplayMoves : DDRComponent
                 {
                     _sequenceDisplay.Stop();
                     ThrowBehavior.ChangeAmmo(1);
-                    _playerController.GrabEgg();
+                    //_playerController.GrabEgg();
                     EggBehavior.Resume();
                     Destroy(EggBehavior.gameObject);
                     reset();
