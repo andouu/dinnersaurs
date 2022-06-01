@@ -23,13 +23,17 @@ public class EggEating : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Egg Projectile"))
+        GameObject collided = other.gameObject;
+        if (collided.CompareTag("Egg Projectile"))
         {
             currHunger--;
             _gameoverDisplay.DinosFed++;
             chomp.Play();
         
-            if (currHunger <= 0) {
+            if (currHunger <= 0)
+            {
+                if (collided.GetComponent<ProjectileBehavior>().HasTouchedGround)
+                    return;
                 
                 _dinoBehavior.Slow(); 
             }

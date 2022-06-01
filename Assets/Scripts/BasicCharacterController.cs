@@ -4,7 +4,7 @@ using UnityEngine;
 public class BasicCharacterController : MonoBehaviour
 {
     [Header("Reset Settings")]
-    [SerializeField] private Vector3 _resetPosition;
+    [SerializeField] private float _resetY;
 
     [Header("Movement Speeds")]
     [SerializeField] private float _walkSpeed = 7.5f;
@@ -13,6 +13,7 @@ public class BasicCharacterController : MonoBehaviour
     [SerializeField] private float _maxStamina = 1f;
     [SerializeField] private float _staminaUsePerSec = 0.25f;
     [SerializeField] private float _staminaGainPerEgg = 0.5f;
+    [SerializeField] private float _staminaRecovery = 0.3f;
     private float _stamina;
     
     [Header("Jump Settings")]
@@ -29,12 +30,13 @@ public class BasicCharacterController : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private MenuController menu;
     [SerializeField] private ChunkLoader _chunkLoader;
+    // [SerializeField] private ChunkLoaderV2 _chunkLoader;
 
     [HideInInspector] public float Distance => _distanceRan;
 
     // cache
     private float _distanceRan = 0f;
-    
+    private Vector3 _resetPosition = new Vector3(0, 5, 0);
     private float _movementSpeed;
     private MovementState _movementState = MovementState.Idle;
 
@@ -69,6 +71,8 @@ public class BasicCharacterController : MonoBehaviour
 
     private void Start()
     {
+        // Vector3 centerChunkPos = _chunkLoader.CenterChunk.gameObject.transform.position;
+        // _resetPosition = new Vector3(centerChunkPos.x, _resetY, centerChunkPos.z);
         _footsteps.Play();
         _footsteps.Pause();
         _staminaBar.SetMaxValue(_maxStamina);
@@ -83,22 +87,21 @@ public class BasicCharacterController : MonoBehaviour
             return;
         }
 
-        bool grounded = Physics.OverlapSphere(_groundCheck.position, _groundCheckRadius, _groundCheckLayerMask).Length >
-                        0;
+        bool grounded = Physics.OverlapSphere(_groundCheck.position, _groundCheckRadius, _groundCheckLayerMask).Length > 0;
+
         if (Input.GetKey(KeyCode.LeftShift) && _stamina > 0f)
         {
             if (_stamina > 0.05f) // ignore the bad coding, it works
             {
                 _movementState = MovementState.Sprinting;
                 _movementSpeed = _walkSpeed * _sprintSpeedMultiplier;
+                _stamina = Mathf.Max(0f, _stamina - (_staminaUsePerSec * Time.deltaTime));
             }
             else
             {
                 _movementState = MovementState.Walking;
                 _movementSpeed = _walkSpeed;
             }
-            _stamina = Mathf.Max(0f, _stamina - (_staminaUsePerSec * Time.deltaTime));
-            _staminaBar.SetValue(_stamina);
         }
         else
         {
@@ -117,6 +120,10 @@ public class BasicCharacterController : MonoBehaviour
         }
         else _footsteps.UnPause();
 
+        if (_movementState == MovementState.Idle || _movementState == MovementState.Walking) {
+            _stamina = Mathf.Min(_maxStamina, _stamina + (_staminaRecovery * Time.deltaTime));
+        }
+
         _rb.velocity = new Vector3(netMovement.x, _rb.velocity.y, netMovement.z);
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -130,7 +137,9 @@ public class BasicCharacterController : MonoBehaviour
 
         if (!grounded) _movementState = MovementState.Jumping;
 
-            // we are running straight in the z direction, so the distance is just the difference in z values
+        _staminaBar.SetValue(_stamina);
+
+        // we are running straight in the z direction, so the distance is just the difference in z values
         _distanceRan = transform.position.z - _chunkLoader.InitialPosition.z;
     }
     

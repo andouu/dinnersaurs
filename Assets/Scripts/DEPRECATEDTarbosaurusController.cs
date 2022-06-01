@@ -13,7 +13,9 @@ public class DEPRECATEDTarbosaurusController : DEPRECATEDDinosaurController
         
         _maxPlayerDistance = 40f;
         
-        _staminaMax = 20f;
+        _
+            
+            Max = 20f;
         _staminaRecovery = 0.75f;
         _staminaStartChase = 10f;
         
